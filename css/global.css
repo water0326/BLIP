@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* QHD 세로 방향 (1440x2560) 해상도 설정 */
+@media screen and (width: 1440px) and (height: 2560px) {
+    body {
+        width: 1440px;
+        height: 2560px;
+        overflow: hidden;
+    }
+}
+
+/* QHD 세로 방향을 위한 일반적인 설정 */
+@media screen and (min-width: 1440px) and (min-height: 2560px) {
+    body {
+        max-width: 1440px;
+        max-height: 2560px;
+    }
+}
+
+/* 페이드 애니메이션을 위한 기본 스타일 */
+.fade-element {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-element.fade-in {
+    opacity: 1;
+}
+
+.fade-element.fade-out {
+    opacity: 0;
+}
+
+/* 페이드 애니메이션을 위한 유틸리티 클래스들 */
+.fade-fast {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fade-slow {
+    transition: opacity 1s ease-in-out;
+}
+
+.fade-ease-in {
+    transition: opacity 0.5s ease-in;
+}
+
+.fade-ease-out {
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-ease-in-out {
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 페이드 애니메이션 중일 때 포인터 이벤트 비활성화 */
+.fade-animating {
+    pointer-events: none;
+}

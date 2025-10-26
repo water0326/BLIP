@@ -1,0 +1,26 @@
+[
+  {
+    "id": "image1",
+    "x": 100,
+    "y": 50,
+    "width": 200,
+    "height": 150,
+    "src": "static/img/sample1.jpg"
+  },
+  {
+    "id": "image2", 
+    "x": 350,
+    "y": 100,
+    "width": 150,
+    "height": 100,
+    "src": "static/img/sample2.jpg"
+  },
+  {
+    "id": "image3",
+    "x": 50,
+    "y": 250,
+    "width": 300,
+    "height": 200,
+    "src": "static/img/sample3.jpg"
+  }
+]

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이드 컴포넌트 데모</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        .demo-element {
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .controls {
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5a6fd8;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .code-example {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        
+        .sequence-demo {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .sequence-demo .demo-element {
+            width: 80px;
+            height: 60px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎭 페이드 컴포넌트 데모</h1>
+        
+        <!-- 기본 페이드인아웃 데모 -->
+        <div class="demo-section">
+            <h3>기본 페이드인아웃</h3>
+            <div class="demo-element" id="basic-fade">기본 페이드</div>
+            <div class="controls">
+                <button onclick="fade('#basic-fade', 'in')">페이드인</button>
+                <button onclick="fade('#basic-fade', 'out')">페이드아웃</button>
+                <button onclick="fade('#basic-fade', 'toggle')">토글</button>
+            </div>
+            <div class="code-example">
+// 기본 사용법
+fade('#basic-fade', 'in');     // 페이드인
+fade('#basic-fade', 'out');    // 페이드아웃
+fade('#basic-fade', 'toggle'); // 토글
+            </div>
+        </div>
+        
+        <!-- 지속시간 조절 데모 -->
+        <div class="demo-section">
+            <h3>지속시간 조절</h3>
+            <div class="demo-element" id="duration-fade">지속시간 테스트</div>
+            <div class="controls">
+                <button onclick="fadeIn(document.getElementById('duration-fade'), 200)">빠른 페이드인 (200ms)</button>
+                <button onclick="fadeIn(document.getElementById('duration-fade'), 1000)">느린 페이드인 (1초)</button>
+                <button onclick="fadeOut(document.getElementById('duration-fade'), 200)">빠른 페이드아웃</button>
+            </div>
+            <div class="code-example">
+// 지속시간 조절
+fadeIn(element, 200);   // 200ms
+fadeIn(element, 1000);  // 1초
+            </div>
+        </div>
+        
+        <!-- 순차 페이드 데모 -->
+        <div class="demo-section">
+            <h3>순차 페이드인</h3>
+            <div class="sequence-demo">
+                <div class="demo-element" id="seq1">1</div>
+                <div class="demo-element" id="seq2">2</div>
+                <div class="demo-element" id="seq3">3</div>
+                <div class="demo-element" id="seq4">4</div>
+                <div class="demo-element" id="seq5">5</div>
+            </div>
+            <div class="controls">
+                <button onclick="startSequenceDemo()">순차 페이드인 시작</button>
+                <button onclick="fadeOutSequence([...document.querySelectorAll('.sequence-demo .demo-element')])">순차 페이드아웃</button>
+            </div>
+            <div class="code-example">
+// 순차 페이드인
+const elements = document.querySelectorAll('.demo-element');
+fadeInSequence(elements, 500, 200); // 500ms 지속, 200ms 간격
+
+// 순차 페이드아웃
+fadeOutSequence(elements, 500, 200);
+            </div>
+        </div>
+        
+        <!-- Promise 기반 사용법 -->
+        <div class="demo-section">
+            <h3>Promise 기반 사용법</h3>
+            <div class="demo-element" id="promise-fade">Promise 테스트</div>
+            <div class="controls">
+                <button onclick="promiseDemo()">Promise 체인 실행</button>
+            </div>
+            <div class="code-example">
+// Promise 체인으로 순차 실행
+fadeIn(element1, 500)
+    .then(() => fadeOut(element2, 300))
+    .then(() => fadeIn(element3, 400))
+    .then(() => console.log('모든 애니메이션 완료!'));
+            </div>
+        </div>
+        
+        <!-- 사용법 안내 -->
+        <div class="demo-section">
+            <h3>📖 사용법 안내</h3>
+            <div class="code-example">
+// 1. 기본 사용법
+fade('#myElement', 'in');        // 페이드인
+fade('#myElement', 'out');       // 페이드아웃  
+fade('#myElement', 'toggle');    // 토글
+
+// 2. 직접 함수 사용
+fadeIn(element, duration, easing);
+fadeOut(element, duration, easing);
+fadeToggle(element, duration, easing);
+
+// 3. 순차 애니메이션
+fadeInSequence(elements, duration, delay);
+fadeOutSequence(elements, duration, delay);
+
+// 4. Promise 체인
+fadeIn(element1).then(() => fadeOut(element2));
+            </div>
+        </div>
+    </div>
+
+    <!-- 스크립트 로드 -->
+    <script src="../utils/effects/fade.js"></script>
+    <script>
+        // 순차 페이드인 데모 함수
+        function startSequenceDemo() {
+            const elements = document.querySelectorAll('.sequence-demo .demo-element');
+            // 먼저 모든 요소를 숨김
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.display = 'block';
+            });
+            // 순차적으로 페이드인
+            fadeInSequence(elements, 400, 150);
+        }
+        
+        // Promise 데모 함수
+        function promiseDemo() {
+            const element = document.getElementById('promise-fade');
+            
+            fadeOut(element, 300)
+                .then(() => {
+                    console.log('페이드아웃 완료!');
+                    return fadeIn(element, 500);
+                })
+                .then(() => {
+                    console.log('페이드인 완료!');
+                    alert('Promise 체인 실행 완료!');
+                });
+        }
+        
+        // 페이지 로드 시 초기 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            // 모든 데모 요소를 초기에 숨김
+            const demoElements = document.querySelectorAll('.demo-element');
+            demoElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

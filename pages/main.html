@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLIP - Main</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/overlay-tool.css">
+</head>
+<body>
+    <script src="../utils/comp.js"></script>
+    <script src="../utils/overlay-tool.js"></script>
+    <script>
+        async function initComponents() {
+            const componentsDict = await renderImageComponents('body', '../data/main_comps.json');
+            const mainButton = componentsDict['main_button'];
+            mainButton.addEventListener('click', () => {
+                
+            });
+        }
+        
+        // 페이지 로드 시 컴포넌트 초기화
+        initComponents();
+    </script>
+</body>
+</html>

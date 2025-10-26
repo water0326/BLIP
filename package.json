@@ -1,0 +1,23 @@
+{
+  "name": "blip-overlay-tool",
+  "version": "1.0.0",
+  "description": "BLIP 프로젝트용 오버레이 편집 툴",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "install-deps": "npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "keywords": [
+    "overlay",
+    "editor",
+    "json",
+    "component"
+  ],
+  "author": "BLIP Team",
+  "license": "MIT"
+}

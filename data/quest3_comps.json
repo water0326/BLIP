@@ -1,0 +1,346 @@
+[
+  {
+    "id": "time",
+    "x": 891.8,
+    "y": 77.2,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/a-2-4)891.8_77.2.png",
+    "zIndex": 8
+  },
+  {
+    "id": "bg1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-1.png",
+    "opacity": 1
+  },
+  {
+    "id": "bg2",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-2.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg3",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-3.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg4",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-4.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg5",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-5.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg6",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6.png",
+    "opacity": 0
+  },
+  {
+    "id": "ui",
+    "x": 44.6,
+    "y": 96.8,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-1)44.6_96.8.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "message",
+    "x": 760.2,
+    "y": 1160.4,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-2)760.2_1160.4.png",
+    "opacity": 0
+  },
+  {
+    "id": "item1",
+    "src": "../static/img/quest3/c-6-3.png",
+    "x": 100,
+    "y": 1000,
+    "width": 0,
+    "height": 0,
+    "opacity": 0
+  },
+  {
+    "id": "item2",
+    "src": "../static/img/quest3/c-6-4.png",
+    "x": 1600,
+    "y": 100,
+    "width": 0,
+    "height": 0,
+    "zIndex": 0,
+    "opacity": 1
+  },
+  {
+    "id": "item3",
+    "src": "../static/img/quest3/c-6-5.png",
+    "x": -40,
+    "y": 1450,
+    "width": 0,
+    "height": 0,
+    "opacity": 0
+  },
+  {
+    "id": "item4",
+    "src": "../static/img/quest3/c-6-6.png",
+    "x": 660,
+    "y": 1880,
+    "width": 0,
+    "height": 0,
+    "opacity": 0
+  },
+  {
+    "id": "item5",
+    "src": "../static/img/quest3/c-6-6-1.png",
+    "x": 0,
+    "y": 2200,
+    "width": 0,
+    "height": 0,
+    "opacity": 0
+  },
+  {
+    "id": "item6",
+    "src": "../static/img/quest3/c-6-7.png",
+    "x": 2300,
+    "y": 500,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "id": "item7",
+    "src": "../static/img/quest3/c-6-8.png",
+    "x": 2150,
+    "y": 800,
+    "width": 0,
+    "height": 0,
+    "zIndex": 0,
+    "opacity": 1
+  },
+  {
+    "id": "item8",
+    "src": "../static/img/quest3/c-6-9.png",
+    "x": 2000,
+    "y": 2000,
+    "width": 0,
+    "height": 0,
+    "opacity": 0
+  },
+  {
+    "id": "item9",
+    "src": "../static/img/quest3/c-6-10.png",
+    "x": 1820,
+    "y": 2350,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "id": "count0",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-11)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count1",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-12)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count2",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-13)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count3",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-14)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count4",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-15)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count5",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-16)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count6",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-17)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count7",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-18)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count8",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-19)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "count9",
+    "x": 953.4,
+    "y": 524,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-6-20)953.4_524.png",
+    "opacity": 0,
+    "zIndex": 10
+  },
+  {
+    "id": "bg7",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-8.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg8",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-9.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg9",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-10.png",
+    "opacity": 0
+  },
+  {
+    "id": "score_up",
+    "x": 929.8,
+    "y": 1040.4,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-9-1)929.8_1040.4.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg10",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-11.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg11",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-12.png",
+    "opacity": 0
+  },
+  {
+    "id": "result_button",
+    "x": 205,
+    "y": 2020.6,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-11-1)205_2020.6.png",
+    "opacity": 0
+  },
+  {
+    "id": "reset_button",
+    "x": 205,
+    "y": 2020.6,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-12-1)205_2020.6.png",
+    "opacity": 0
+  },
+  {
+    "id": "result_popup",
+    "x": 93,
+    "y": 801,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest3/c-12-2)93_801.png",
+    "opacity": 0
+  }
+]

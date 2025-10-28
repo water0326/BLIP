@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'SUIT-ExtraBold';
-    src: url('../static/fonts/GmarketSansTTFLight.ttf') format('opentype');
+    src: url('../static/fonts/SUIT-ExtraBold.otf') format('opentype');
 }
 
 .screen_fader {
@@ -17,7 +17,7 @@
 
 #timer {
     position: absolute;
-    font-size: 37px;
+    font-size: 36px;
     top: 160px;
     right: 40px;
     width: 460px;
@@ -31,7 +31,7 @@
 
 #total_timer {
     position: absolute;
-    font-size: 37px;
+    font-size: 36px;
     top: 160px;
     right: 40px;
     width: 230px;

@@ -22,13 +22,16 @@
 
         var canTouch = false;
         var isTouched = false;
+        var touch_count = 0;
+        var isTouching = false;
+        var isEnded = false;
 
         var timer_value = 0;
-        localStorage.setItem('timer_value', 0);
 
         function start_timer() {
             const timer = document.getElementById('timer');
             const total_timer = document.getElementById('total_timer');
+            timer_value = localStorage.getItem('timer_value');
             setInterval(() => {
                 timer_value++;
                 timer.textContent = `+ ${Math.floor((timer_value + 300) / 60)}분 ${(timer_value + 300) % 60}초`;
@@ -40,6 +43,13 @@
             document.addEventListener('touchstart', () => {
                 if (canTouch) {
                     isTouched = true;
+                    isTouching = true;
+                    touch_count++;
+                }
+            });
+            document.addEventListener('touchend', () => {
+                if (canTouch) { 
+                    isTouching = false;
                 }
             });
         }
@@ -49,18 +59,252 @@
 
         async function initComponents() {
             const componentsDict = await renderImageComponents('body', '../data/quest2_comps.json');
+            const timer = document.getElementById('timer');
+            const total_timer = document.getElementById('total_timer');
+
+            const numberToElementMapping = {
+                1: componentsDict['count_1'],
+                2: componentsDict['count_2'],
+                3: componentsDict['count_3'],
+                4: componentsDict['count_4'],
+                5: componentsDict['count_5'],
+                6: componentsDict['count_6'],
+                7: componentsDict['count_7'],
+                8: componentsDict['count_8'],
+                9: componentsDict['count_9'],
+                10: componentsDict['count_10'],
+                11: componentsDict['count_11'],
+                12: componentsDict['count_12'],
+                13: componentsDict['count_13'],
+                14: componentsDict['count_14'],
+                15: componentsDict['count_15'],
+                16: componentsDict['count_16'],
+                17: componentsDict['count_17'],
+                18: componentsDict['count_18'],
+                19: componentsDict['count_19'],
+                20: componentsDict['count_20']
+            }
 
             const animationSequence1 = [
                 {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드아웃
+
+                {action: 'in', selector: bg1_1, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: bg1_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+
+                {action: 'out', selector: bg1_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
+                {action: 'in', selector: bg1_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+
+                {action: 'out', selector: bg1_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
+                {action: 'in', selector: bg1_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                {action: 'in', selector: bg2, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 화면 페이드인
+                
+            ];  
+
+            const animationSequence2 = [
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                {action: 'in', selector: bg3, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: hand1, duration: 0, delay: 0}, // 손 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 화면 페이드인
+                {action: 'in', selector: hand2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 손 이미지 페이드인
+                {action: 'out', selector: hand1, duration: 0, delay: 0}, // 손 이미지 페이드아웃
+
+                {action: 'in', selector: bg4, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                    touch_count = 0;
+                }}, // 배경 이미지 페이드인
+            ];
+
+            const animationSequence3 = [
+                {action: 'out', selector: hand2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 손 이미지 페이드아웃
+                {action: 'in', selector: bg5, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg6, duration: DEFAULT_FADE_DURATION, delay: 2000}, // 배경 이미지 페이드인
+                {action: 'in', selector: hand3, duration: DEFAULT_FADE_DURATION, delay: 0}, // 손 이미지 페이드인
+                {action: 'in', selector: bg7, duration: DEFAULT_FADE_DURATION, delay: 3000}, // 배경 이미지 페이드인
+                {action: 'out', selector: hand3, duration: 0, delay: 0}, // 손 이미지 페이드아웃
+                {action: 'in', selector: hand4, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    canTouch = true;
+                    touch_count = 0;
+                }}, // 손 이미지 페이드인
+            ];
+
+            const animationSequence4 = [
+                {action: 'in', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'out', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: 3000, callback: () => {
+                    canTouch = true;
+                }}, // 배경 이미지 페이드아웃
+            ];
+
+            const animationSequence5 = [
+                {action: 'in', selector: bg10, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'out', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
+                {action: 'in', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'out', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
+                {action: 'in', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'out', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
+
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                {action: 'in', selector: bg11, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY},
+
+                {action: 'in', selector: success_popup, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 성공 팝업 이미지 페이드인
+                {action: 'in', selector: score_up, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 점수 증가 이미지 페이드인
+                {action: 'in', selector: success_text, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 성공 텍스트 이미지 페이드인
+
+                {action: 'in', selector: bg12, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                    isTouched = false;
+                    isEnded = true;
+                }}, // 배경 이미지 페이드인
+            ];
+
+            const animationSequence6 = [
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
             ];
 
             // Action
+            start_timer();
             add_touch_event();
 
             await runSequence(animationSequence1);
+
+            while (!isTouched) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            console.log("Animation Sequence 1 ended");
+
+            canTouch = false;
+            isTouched = false;
+            touch_count = 0;
+
+            await runSequence(animationSequence2);
+
+            while (touch_count < 2) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                isTouched = false;
+            }
+
+            console.log("Animation Sequence 2 ended");
+
+            canTouch = false;
+            isTouched = false;
+            touch_count = 0;
+
+            await runSequence(animationSequence3);
+
+            while (touch_count <= 10) {
+
+                while (!isTouching) {
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+                
+                // 터치 시작 시 해당 count element를 fade in
+                if (isTouched && isTouching) {
+                    const currentElement = numberToElementMapping[touch_count];
+                    if (currentElement) {
+                        await fadeIn(currentElement, 0);
+                        if(touch_count == 1) {
+                            await fadeIn(bg8, 0);
+                        }
+                    }
+                }
+
+                while (isTouching) {
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+                
+                // 터치 종료 시 해당 count element를 fade out
+                if (!isTouching && touch_count > 0) {
+                    const currentElement = numberToElementMapping[touch_count];
+                    if (currentElement) {
+                        await fadeOut(currentElement, 0);
+                        if(touch_count == 10) {
+                            break;
+                        }
+                    }
+                }
+                
+                isTouched = false;
+            }
+
+            canTouch = false;
+            isTouched = false;
+
+            await runSequence(animationSequence4);
+
+            while(touch_count <= 20) {
+                
+                while (!isTouching) {
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+
+                // 터치 시작 시 해당 count element를 fade in
+                if (isTouched && isTouching) {
+                    const currentElement = numberToElementMapping[touch_count];
+                    if (currentElement) {
+                        await fadeIn(currentElement, 0);
+                    }
+                }
+
+                while (isTouching) {
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+                
+                // 터치 종료 시 해당 count element를 fade out
+                if (!isTouching && touch_count > 0) {
+                    const currentElement = numberToElementMapping[touch_count];
+                    if (currentElement) {
+                        await fadeOut(currentElement, 0);
+                        if(touch_count == 20) {
+                            break;
+                        }
+                    }
+                }
+                
+                isTouched = false;
+            }
+
+            console.log("Animation Sequence 4 ended");
+
+            await runSequence(animationSequence5);
+
+            while (!isTouched || !isEnded) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            console.log("Animation Sequence 5 ended");
+
+            await runSequence(animationSequence6);
+
+
+            console.log("Animation Sequence 6 ended");
+
+            localStorage.setItem('timer_value', timer_value);
+            console.log("Timer value saved: ", timer_value);
+            window.location.href = '../pages/quest3.html';
+
         }
         
         initComponents();
     </script>
 </body>
 </html>
+
+
+<!--
+
+수정 사항
+1. 손 위치 이상함
+
+
+
+-->

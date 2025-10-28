@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'SUIT-ExtraBold';
+    src: url('../static/fonts/SUIT-ExtraBold.otf') format('opentype');
+}
+
+.screen_fader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 2560px;
+    background-color: #000;
+    z-index: 100;
+    opacity: 1;
+    pointer-events: none;
+}
+
+#timer {
+    position: absolute;
+    font-size: 36px;
+    top: 160px;
+    right: 40px;
+    width: 460px;
+    height: 70px;
+    color: #ffffff;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 1;
+    font-family: 'SUIT-ExtraBold';
+}
+
+#total_timer {
+    position: absolute;
+    font-size: 36px;
+    top: 160px;
+    right: 40px;
+    width: 230px;
+    height: 70px;
+    color: #ffffff;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 1;
+    font-family: 'SUIT-ExtraBold';
+}
+
+#timer2 {
+    position: absolute;
+    font-size: 41px;
+    top: 1240px;
+    left: 270px;
+    width: 460px;
+    height: 70px;
+    color: #ffffff;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    font-family: 'SUIT-ExtraBold';
+    text-align: center;
+}
+
+#total_timer2 {
+    position: absolute;
+    font-size: 41px;
+    top: 1240px;
+    right: 280px;
+    width: 230px;
+    height: 70px;
+    color: #ffffff;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    font-family: 'SUIT-ExtraBold';
+    text-align: center;
+}
+
+/* 기본 스크롤/제스처 비활성화: canSwipe가 false일 때 화면이 움직여 보이는 것 방지 */
+html, body {
+    margin: 0;
+    width: 1440px;
+    height: 2560px;
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: none;
+}

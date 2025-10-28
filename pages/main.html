@@ -25,6 +25,12 @@
                     window.location.href = '../pages/quest1.html';
                 });
             });
+
+            if (localStorage.getItem('reset') == "true") {
+                localStorage.setItem('reset', "false");
+                location.reload();
+            }
+
         }
         
         initComponents();

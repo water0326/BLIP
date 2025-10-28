@@ -74,6 +74,16 @@ class OverlayTool {
                             <input type="number" id="comp-height" class="form-input">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="comp-zindex">Z-Index</label>
+                            <input type="number" id="comp-zindex" class="form-input" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="comp-opacity">투명도</label>
+                            <input type="number" id="comp-opacity" class="form-input" min="0" max="1" step="0.1" placeholder="1.0">
+                        </div>
+                    </div>
                     <div class="overlay-buttons">
                         <button type="button" class="btn btn-primary" id="save-changes">저장</button>
                         <button type="button" class="btn btn-secondary" id="cancel-changes">취소</button>
@@ -192,6 +202,8 @@ class OverlayTool {
         document.getElementById('comp-y').value = parseInt(component.style.top) || 0;
         document.getElementById('comp-width').value = parseInt(component.style.width) || 0;
         document.getElementById('comp-height').value = parseInt(component.style.height) || 0;
+        document.getElementById('comp-zindex').value = parseInt(component.style.zIndex) || 0;
+        document.getElementById('comp-opacity').value = parseFloat(component.style.opacity) || 1.0;
         
         // 오버레이 표시
         document.getElementById('overlay-tool').classList.add('active');
@@ -216,7 +228,9 @@ class OverlayTool {
             x: parseInt(component.style.left) || 0,
             y: parseInt(component.style.top) || 0,
             width: parseInt(component.style.width) || 0,
-            height: parseInt(component.style.height) || 0
+            height: parseInt(component.style.height) || 0,
+            zIndex: parseInt(component.style.zIndex) || 0,
+            opacity: parseFloat(component.style.opacity) || 1.0
         };
     }
 
@@ -241,7 +255,9 @@ class OverlayTool {
             x: parseInt(document.getElementById('comp-x').value) || 0,
             y: parseInt(document.getElementById('comp-y').value) || 0,
             width: parseInt(document.getElementById('comp-width').value) || 0,
-            height: parseInt(document.getElementById('comp-height').value) || 0
+            height: parseInt(document.getElementById('comp-height').value) || 0,
+            zIndex: parseInt(document.getElementById('comp-zindex').value) || 0,
+            opacity: parseFloat(document.getElementById('comp-opacity').value) || 1.0
         };
 
         // 컴포넌트 스타일 업데이트
@@ -260,6 +276,20 @@ class OverlayTool {
             this.currentComponent.style.height = `${newData.height}px`;
         } else {
             this.currentComponent.style.height = '';
+        }
+
+        // zIndex 설정
+        if (newData.zIndex !== 0) {
+            this.currentComponent.style.zIndex = newData.zIndex;
+        } else {
+            this.currentComponent.style.zIndex = '';
+        }
+
+        // opacity 설정
+        if (newData.opacity !== 1.0) {
+            this.currentComponent.style.opacity = newData.opacity;
+        } else {
+            this.currentComponent.style.opacity = '';
         }
 
         // JSON 파일 업데이트

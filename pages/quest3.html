@@ -12,15 +12,370 @@
 
     <div class="screen_fader"></div>
 
+    <div id="timer">+ 5분 0초</div>
+    <div id="total_timer">+ 0분 0초</div>
+
+    <div id="timer2">+ 0분 0초</div>
+    <div id="total_timer2">0초</div>
+
     <script src="../utils/comp.js"></script>
     <script src="../utils/overlay-tool.js"></script>
     <script src="../utils/effects/fade.js"></script>
     <script>
+
+        var canTouch = false;
+        var isTouched = false;
+        var touch_count = 0;
+        var isEnded = false;
+        var timerStop = false;
+
+        var canSwipe = false;
+        var posX = 0;
+        var posY = 0;
+
+        var timer_value = 0;
+
+        var collected = [false, false, false, false, false, false, false, false, false];
+        var collected_count = 0;
+        var currentCountIndex = 0;
+
+        function start_timer() {
+            const timer = document.getElementById('timer');
+            const total_timer = document.getElementById('total_timer');
+            timer_value = localStorage.getItem('timer_value');
+            setInterval(() => {
+                if (timerStop) return;
+                timer_value++;
+                timer.textContent = `+ ${Math.floor((timer_value + 300) / 60)}분 ${(timer_value + 300) % 60}초`;
+                total_timer.textContent = `+ ${Math.floor(timer_value / 60)}분 ${timer_value % 60}초`;
+            }, 1000);
+        }
+
+        function add_touch_event() {
+            document.addEventListener('touchstart', () => {
+                if (canTouch) {
+                    isTouched = true;
+                    touch_count++;
+                }
+            });
+        }
+
+        const DEFAULT_FADE_DURATION = 300;
+        const DEFAULT_FADE_DELAY = 300;
+
         async function initComponents() {
             const componentsDict = await renderImageComponents('body', '../data/quest3_comps.json');
-            fade('.screen_fader', 'out', 1000, () => {
-                console.log('fadeout completed');
+            const timer = document.getElementById('timer');
+            const total_timer = document.getElementById('total_timer');
+            const timer2 = document.getElementById('timer2');
+            const total_timer2 = document.getElementById('total_timer2');
+            const time = componentsDict['time'];
+            const bg6 = componentsDict['bg6'];
+
+            const ui = componentsDict['ui'];
+            ui.style.pointerEvents = 'none';
+            
+            const items = [componentsDict['item1'], componentsDict['item2'], componentsDict['item3'], componentsDict['item4'], componentsDict['item5'], componentsDict['item6'], componentsDict['item7'], componentsDict['item8'], componentsDict['item9']];
+            const counts = [componentsDict['count0'], componentsDict['count1'], componentsDict['count2'], componentsDict['count3'], componentsDict['count4'], componentsDict['count5'], componentsDict['count6'], componentsDict['count7'], componentsDict['count8'], componentsDict['count9']];
+            const movable_list = [
+                items[0],
+                items[1],
+                items[2],
+                items[3],
+                items[4],
+                items[5],
+                items[6],
+                items[7],
+                items[8],
+                bg6
+            ];
+
+            for(const count of counts) {
+                count.style.pointerEvents = 'none';
+            }
+
+
+            // 스와이프 이동 처리
+            let startX = 0;
+            let startY = 0;
+            let isSwiping = false;
+            let currentDx = 0;
+            let currentDy = 0;
+            let bounds = null;
+            let firtClicked = false;
+            let showResult = false;
+            let autoRefreshTriggerTimer = 0;
+            let enabledAutoRefresh = false;
+
+            function computeBounds() {
+                const viewportWidth = document.documentElement.clientWidth;
+                const viewportHeight = document.documentElement.clientHeight;
+                const baseLeft = bg6.offsetLeft;
+                const baseTop = bg6.offsetTop;
+                const baseWidth = bg6.offsetWidth;
+                const baseHeight = bg6.offsetHeight;
+                // 이미지가 아직 로드되지 않았을 수 있으므로 0이면 재시도 필요
+                if (!baseWidth || !baseHeight) {
+                    return null;
+                }
+                const minX = viewportWidth - (baseLeft + baseWidth);
+                const maxX = -baseLeft;
+                const minY = viewportHeight - (baseTop + baseHeight);
+                const maxY = -baseTop;
+                return { minX, maxX, minY, maxY };
+            }
+
+            function ensureBounds() {
+                if (!bounds) {
+                    bounds = computeBounds();
+                }
+            }
+
+            function clamp(value, min, max) {
+                return Math.max(min, Math.min(max, value));
+            }
+
+            function centerToViewport() {
+                ensureBounds();
+                const viewportWidth = document.documentElement.clientWidth;
+                const viewportHeight = document.documentElement.clientHeight;
+                const baseLeft = bg6.offsetLeft;
+                const baseTop = bg6.offsetTop;
+                const baseWidth = bg6.offsetWidth;
+                const baseHeight = bg6.offsetHeight;
+                if (!baseWidth || !baseHeight) return;
+                const desiredX = (viewportWidth / 2) - (baseLeft + baseWidth / 2);
+                const desiredY = (viewportHeight / 2) - (baseTop + baseHeight / 2);
+                const clampedX = bounds ? clamp(desiredX, bounds.minX, bounds.maxX) : desiredX;
+                const clampedY = bounds ? clamp(desiredY, bounds.minY, bounds.maxY) : desiredY;
+                posX = clampedX;
+                posY = clampedY;
+                applySwipeTransform(0, 0);
+            }
+
+            function applySwipeTransform(dx, dy) {
+                const offsetX = posX + dx;
+                const offsetY = posY + dy;
+                for (const el of movable_list) {
+                    el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                }
+            }
+
+            // 포지션 초기화 + 스와이프 차단
+            function resetSwipe(options = {}) {
+                const { toCenter = false, block = true } = options;
+                isSwiping = false;
+                currentDx = 0;
+                currentDy = 0;
+                if (toCenter) {
+                    centerToViewport();
+                } else {
+                    posX = 0;
+                    posY = 0;
+                    applySwipeTransform(0, 0);
+                }
+                if (block) {
+                    canSwipe = false;
+                }
+            }
+
+            // 전역에서 호출 가능하도록 노출 (swap 오타 대비 별칭 포함)
+            window.resetSwipe = resetSwipe;
+            window.resetSwap = resetSwipe;
+
+            function setupItemClickHandlers() {
+                items.forEach((item, idx) => {
+                    item.style.zIndex = 3;
+                    item.addEventListener('click', async () => {
+                        if (!canSwipe || collected[idx]) return;
+                        collected[idx] = true;
+                        collected_count++;
+                        item.style.pointerEvents = 'none';
+                        await fadeOut(item, 0);
+
+                        // count 교체 (0ms 전환)
+                        const current = counts[currentCountIndex];
+                        if (current) await fadeOut(current, 0);
+                        if (currentCountIndex < counts.length - 1) {
+                            currentCountIndex++;
+                        }
+                        const next = counts[currentCountIndex];
+                        if (next) await fadeIn(next, 0);
+                    });
+                });
+            }
+
+            document.addEventListener('touchstart', (e) => {
+                if (!canSwipe) return;
+                if (!firtClicked) {
+                    firtClicked = true;
+                    fadeOut(message, 0);
+                }
+                ensureBounds();
+                const t = e.touches[0];
+                startX = t.clientX;
+                startY = t.clientY;
+                isSwiping = true;
+                currentDx = 0;
+                currentDy = 0;
             });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!canSwipe || !isSwiping) return;
+                ensureBounds();
+                const t = e.touches[0];
+                const dx = t.clientX - startX;
+                const dy = t.clientY - startY;
+                const desiredX = posX + dx;
+                const desiredY = posY + dy;
+                const clampedX = bounds ? clamp(desiredX, bounds.minX, bounds.maxX) : desiredX;
+                const clampedY = bounds ? clamp(desiredY, bounds.minY, bounds.maxY) : desiredY;
+                currentDx = clampedX - posX;
+                currentDy = clampedY - posY;
+                e.preventDefault();
+                applySwipeTransform(currentDx, currentDy);
+            }, { passive: false });
+
+            function endSwipe() {
+                if (!canSwipe || !isSwiping) return;
+                ensureBounds();
+                const nextX = posX + currentDx;
+                const nextY = posY + currentDy;
+                posX = bounds ? clamp(nextX, bounds.minX, bounds.maxX) : nextX;
+                posY = bounds ? clamp(nextY, bounds.minY, bounds.maxY) : nextY;
+                isSwiping = false;
+            }
+
+            document.addEventListener('touchend', endSwipe);
+            document.addEventListener('touchcancel', endSwipe);
+
+            const animationSequence1 = [
+                {action: 'in', selector: time, duration: 0}, // 시간 이미지 페이드인
+                {action: 'in', selector: timer, duration: 0}, // 시간 텍스트 페이드인
+                {action: 'in', selector: total_timer, duration: 0}, // 총 시간 텍스트 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                {action: 'in', selector: bg2, duration: DEFAULT_FADE_DURATION, delay: 2000}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg3, duration: DEFAULT_FADE_DURATION, delay: 2000}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg4, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 배경 이미지 페이드인
+
+            ];
+
+            const animationSequence2 = [
+                {action: 'in', selector: bg5, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+
+                {action: 'in', selector: ui, duration: 0, delay: 0}, // UI 이미지 페이드인
+                {action: 'in', selector: bg6, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: message, duration: 0, delay: 0}, // 메시지 이미지 페이드인
+
+                {action: 'in', selector: items[0], duration: 0, delay: 0}, // 아이템 1 이미지 페이드인
+                {action: 'in', selector: items[1], duration: 0, delay: 0}, // 아이템 2 이미지 페이드인
+                {action: 'in', selector: items[2], duration: 0, delay: 0}, // 아이템 3 이미지 페이드인
+                {action: 'in', selector: items[3], duration: 0, delay: 0}, // 아이템 4 이미지 페이드인
+                {action: 'in', selector: items[4], duration: 0, delay: 0}, // 아이템 5 이미지 페이드인
+                {action: 'in', selector: items[5], duration: 0, delay: 0}, // 아이템 6 이미지 페이드인
+                {action: 'in', selector: items[6], duration: 0, delay: 0}, // 아이템 7 이미지 페이드인
+                {action: 'in', selector: items[7], duration: 0, delay: 0}, // 아이템 8 이미지 페이드인
+                {action: 'in', selector: items[8], duration: 0, delay: 0}, // 아이템 9 이미지 페이드인
+
+                {action: 'in', selector: counts[0], duration: 0, delay: 0}, // 카운트 0 이미지 페이드인
+
+                {action: 'in', selector: message, duration: 0, delay: 0, callback: () => {
+                    canSwipe = true;
+                    // 초기 중앙 위치로 정렬
+                    centerToViewport();
+                }}, // 메시지 이미지 페이드인
+
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드아웃
+
+            ];
+
+            const animationSequence3 = [
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    resetSwipe({ toCenter: true, block: false });
+                }}, // 화면 페이드인
+                {action: 'out', selector: ui, duration: 0, delay: 0}, // UI 이미지 페이드인
+                {action: 'out', selector: counts[9], duration: 0, delay: 0}, // 카운트 0 이미지 페이드인
+                {action: 'in', selector: bg7, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+
+                {action: 'in', selector: bg8, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: score_up, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 점수 증가 이미지 페이드인
+                {action: 'in', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 2000}, // 화면 페이드인
+                {action: 'in', selector: bg10, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: result_button, duration: 0, delay: 0, callback: () => {
+                    timerStop = true;
+                    localStorage.setItem('reset', "true");
+                    autoRefreshTriggerTimer = 0;
+                    enabledAutoRefresh = true;
+                    setInterval(() => {
+                        autoRefreshTriggerTimer++;
+                        if (autoRefreshTriggerTimer >= 60) {
+                            window.location.href = '../pages/main.html';
+                        }
+                    }, 1000);
+                    timer2.textContent = `+ ${Math.floor(timer_value / 60)}분 ${timer_value % 60}초`;
+                    t = localStorage.getItem('quest1_time');
+                    total_timer2.textContent = `${t}초`;
+                }}, // 결과 버튼 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    result_button.addEventListener('click', () => {
+                        showResult = true;
+                    });
+                    result_button.style.zIndex = 10;
+                }}, // 화면 페이드인
+
+            ];
+
+            const animationSequence4 = [
+                {action: 'out', selector: result_button, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                {action: 'in', selector: bg11, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: result_popup, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 결과 팝업 이미지 페이드인
+                {action: 'in', selector: timer2, duration: 0, delay: 0}, // 타이머 텍스트 페이드인
+                {action: 'in', selector: total_timer2, duration: 0, delay: 0}, // 총 타이머 텍스트 페이드인
+                {action: 'in', selector: reset_button, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    reset_button.addEventListener('click', () => {
+                        window.location.href = '../pages/main.html';
+                    });
+                    result_button.style.zIndex = 0;
+                    reset_button.style.zIndex = 10;
+                }}, // 리셋 버튼 이미지 페이드인
+            ];
+
+            start_timer();
+            add_touch_event();
+            setupItemClickHandlers();
+
+            await runSequence(animationSequence1);
+
+            while (!isTouched) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            console.log("Animation Sequence 1 ended");
+
+            canTouch = false;
+            isTouched = false;
+
+            await runSequence(animationSequence2);
+
+            while (collected_count < 9) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            
+            await runSequence(animationSequence3);
+
+            while (!showResult) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            await runSequence(animationSequence4);
+
         }
         
         initComponents();

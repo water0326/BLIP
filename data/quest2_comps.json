@@ -1,0 +1,408 @@
+[
+    {
+        "id": "time",
+        "x": 891.8,
+        "y": 77.2,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/a-2-4)891.8_77.2.png",
+        "zIndex": 8
+    },
+    {
+        "id": "bg1",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-1.png"
+    },
+    {
+        "id": "bg1_1",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-2.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg1_2",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-3.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg2",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-5.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg3",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-6.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg4",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-7.png",
+        "opacity": 0
+    },
+    {
+        "id": "hand1",
+        "x": 985.3,
+        "y": 1199.5,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-6-1)985.3_1199.5.png",
+        "opacity": 0
+    },
+    {
+        "id": "hand2",
+        "x": 902,
+        "y": 1146.2,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-7-1)902_1146.2.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg5",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-9.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg6",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-10.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg7",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-11.png",
+        "opacity": 0
+    },
+    {
+        "id": "hand3",
+        "x": 652.5,
+        "y": 1446.4,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-10-1)652.5_1446.4.png",
+        "opacity": 0
+    },
+    {
+        "id": "hand4",
+        "x": 395.9,
+        "y": 1289.8,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-11-1)395.9_1289.8.png",
+        "opacity": 0
+    },
+    {
+        "id": "count_1",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-12.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_2",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-13.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_3",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-14.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_4",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-15.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_5",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-16.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_6",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-17.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_7",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-18.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_8",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-19.png",
+        "opacity": 0,
+        "zIndex": 1
+    }, 
+    {
+        "id": "count_9",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-20.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_10",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-21.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_11",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-24.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_12",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-25.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_13",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-26.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_14",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-27.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_15",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-28.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_16",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-29.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_17",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-30.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_18",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-31.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_19",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-32.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "count_20",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-33.png",
+        "opacity": 0,
+        "zIndex": 1
+    },
+    {
+        "id": "bg8",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-22.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg9",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-23.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg10",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-34.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg10_1",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-35.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg11",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-37.png",
+        "opacity": 0
+    },
+    {
+        "id": "success_popup",
+        "x": 151,
+        "y": 1034.2,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-38-1)151_1034.2.png",
+        "opacity": 0
+    },
+    {
+        "id": "score_up",
+        "x": 869.5,
+        "y": 1040.4,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-38-2)869.5_1040.4.png",
+        "opacity": 0
+    },
+    {
+        "id": "success_text",
+        "x": 722.9,
+        "y": 2156.5,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-38-3)722.9_2156.5.png",
+        "opacity": 0
+    },
+    {
+        "id": "bg12",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "src": "../static/img/quest2/b-39.png",
+        "opacity": 0
+    }
+]

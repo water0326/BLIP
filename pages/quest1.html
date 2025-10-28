@@ -20,8 +20,10 @@
     <script src="../utils/effects/fade.js"></script>
     <script>
 
-
         var timer_value = 0;
+        var canTouch = false;
+        var isTouched = false;
+        var isEnded = false;
 
         function start_timer() {
             const timer = document.getElementById('timer');
@@ -31,6 +33,14 @@
                 timer.textContent = `+ ${Math.floor((timer_value + 300) / 60)}분 ${(timer_value + 300) % 60}초`;
                 total_timer.textContent = `+ ${Math.floor(timer_value / 60)}분 ${timer_value % 60}초`;
             }, 1000);
+        }
+
+        function add_touch_event() {
+            document.addEventListener('touchstart', () => {
+                if (canTouch) {
+                    isTouched = true;
+                }
+            });
         }
 
         async function initComponents() {
@@ -47,39 +57,335 @@
 
             const timer = document.getElementById('timer');
             const total_timer = document.getElementById('total_timer');
+
+            const call_signal = componentsDict['call_signal'];
+
+            const selection1_idle = componentsDict['selection1_idle'];
+            const selection1_selected = componentsDict['selection1_selected'];
+            const selection2_idle = componentsDict['selection2_idle'];
+            const selection2_selected = componentsDict['selection2_selected'];
+            const selection3_idle = componentsDict['selection3_idle'];
+            const selection3_selected = componentsDict['selection3_selected'];
+
+            const selection4_idle = componentsDict['selection4_idle'];
+            const selection4_selected = componentsDict['selection4_selected'];
+            const selection5_idle = componentsDict['selection5_idle'];
+            const selection5_selected = componentsDict['selection5_selected'];
+
+
+            // Config
+            const DEFAULT_FADE_DURATION = 300;
+            const DEFAULT_FADE_DELAY = 300;
+
             // Animation Sequence
-            const animationSequence = [
+            const animationSequence1 = [
+
                 { action: 'out', selector: '.screen_fader', duration: 1000 }, // 화면 전환
-                { action: 'in', selector: quest, duration: 300, delay: 300 }, // 퀘스트 이미지 페이드인
+                { action: 'in', selector: quest, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 퀘스트 이미지 페이드인
 
-                { action: 'in', selector: warning, duration: 300, delay: 300 }, // 경고 이미지 토글(6번)
-                { action: 'out', selector: warning, duration: 300, delay: 300 },
-                { action: 'in', selector: warning, duration: 300, delay: 300 },
-                { action: 'out', selector: warning, duration: 300, delay: 300 },
-                { action: 'in', selector: warning, duration: 300, delay: 300 },
-                { action: 'out', selector: warning, duration: 300, delay: 300 },
+                { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 경고 이미지 토글(6번)
+                { action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
+                { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
+                { action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
+                { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
+                { action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
 
-                { action: 'out', selector: quest, duration: 300, delay: 300 }, // 퀘스트 이미지 페이드아웃
+                { action: 'out', selector: quest, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 퀘스트 이미지 페이드아웃
 
-                { action: 'in', selector: quest_sequence, duration: 300, delay: 300 }, // 퀘스트 시퀀스 이미지 페이드인
-                { action: 'in', selector: time, duration: 300, callback: () => start_timer() }, // 시간 이미지 페이드인
-                { action: 'in', selector: timer, duration: 300 }, // 시간 텍스트 페이드인
-                { action: 'in', selector: total_timer, duration: 300 }, // 총 시간 텍스트 페이드인
+                { action: 'in', selector: quest_sequence, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 퀘스트 시퀀스 이미지 페이드인
+                { action: 'in', selector: time, duration: DEFAULT_FADE_DURATION, callback: () => start_timer() }, // 시간 이미지 페이드인
+                { action: 'in', selector: timer, duration: DEFAULT_FADE_DURATION }, // 시간 텍스트 페이드인
+                { action: 'in', selector: total_timer, duration: DEFAULT_FADE_DURATION }, // 총 시간 텍스트 페이드인
 
-                {action: 'in', selector: '.screen_fader', duration: 300, delay: 2000}, // 화면 페이드인
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 2000}, // 화면 페이드인
 
                 {action: 'out', selector: bg1, duration: 0, delay: 0}, // 배경 이미지 페이드인
                 {action: 'in', selector: bg2, duration: 0, delay: 0}, // 배경 이미지 페이드인
 
-                {action: 'out', selector: '.screen_fader', duration: 300, delay: 2000}, // 화면 페이드아웃
-                {action: 'in', selector: wait, duration: 300, delay: 300}, // 대기 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 2000}, // 화면 페이드아웃
+                {action: 'in', selector: wait, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 대기 이미지 페이드인
 
-                {action: 'out', selector: wait, duration: 300, delay: 300}, // 대기 이미지 페이드아웃
+                {action: 'out', selector: wait, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 대기 이미지 페이드아웃
+
+                {action: 'in', selector: number_3, duration: 0, delay: 0}, // 숫자 3 이미지 페이드인
+                {action: 'in', selector: bg2_1, duration: 0, delay: 0}, // 숫자 2 이미지 페이드인
+                {action: 'out', selector: number_3, duration: 1000, delay: 0}, // 숫자 3 이미지 페이드아웃
+
+                {action: 'in', selector: number_2, duration: 0, delay: 0}, // 숫자 2 이미지 페이드인
+                {action: 'in', selector: bg2_2, duration: 0, delay: 0}, // 숫자 2 이미지 페이드인
+                {action: 'out', selector: number_2, duration: 1000, delay: 0}, // 숫자 2 이미지 페이드아웃
+
+                {action: 'in', selector: number_1, duration: 0, delay: 0}, // 숫자 1 이미지 페이드인
+                {action: 'in', selector: bg2_3, duration: 0, delay: 0}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: number_1, duration: 1000, delay: 0}, // 숫자 1 이미지 페이드아웃
+
+                {action: 'in', selector: bg2_4, duration: 0, delay: 0}, // 숫자 1 이미지 페이드인
+
+                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
+
+                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
+
+                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
+
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 0}, // 화면 페이드인
+                {action: 'in', selector: bg3, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드아웃
+                {action: 'in', selector: bg3_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => canTouch = true}, // 배경 이미지 페이드인
             ];
 
-            await runSequence(animationSequence);
-            console.log('screen fadeout completed');
-            console.log('quest fadein completed');
+            const animationSequence2 = [
+                {action: 'in', selector: bg4, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: call_signal, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    // call_signal이 나온 후 1초 동안 왼쪽으로 이동
+                    call_signal.style.transition = 'transform 1s linear';
+                    call_signal.style.transform = 'translateX(-600px)';
+                }}, // 통화 신호 이미지 페이드인
+                {action: 'out', selector: call_signal, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 통화 신호 이미지 페이드아웃
+
+                {action: 'in', selector: bg5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg5_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: selection1_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 1 이미지 페이드인
+                {action: 'in', selector: selection2_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 2 이미지 페이드인
+                {action: 'in', selector: selection3_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    selection1_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection1);
+                        }
+                    });
+                    selection2_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection2);
+                        }
+                    });
+                    selection3_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection3);
+                        }
+                    });
+                    selection1_idle.style.zIndex = 6;
+                    selection2_idle.style.zIndex = 6;
+                    selection3_idle.style.zIndex = 6;
+                    canTouch = true;
+                }}, // 선택지 3 이미지 페이드인
+            ];
+
+            const selected_selection1 = [
+                {action: 'in', selector: selection1_selected, duration: 0, delay: 0, callback: () => {
+                    selection1_idle.style.zIndex = 0;
+                    selection2_idle.style.zIndex = 0;
+                    selection3_idle.style.zIndex = 0;
+                }}, // 선택지 1 이미지 페이드인
+
+                {action: 'out', selector: selection1_selected, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 1 이미지 페이드아웃
+                {action: 'out', selector: selection1_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 1 이미지 페이드아웃
+                {action: 'out', selector: selection2_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 2 이미지 페이드아웃
+                {action: 'out', selector: selection3_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 3 이미지 페이드아웃
+
+                {action: 'in', selector: chat, duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: chat_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: bg6, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: selection4_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 4 이미지 페이드인
+                {action: 'in', selector: selection5_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 5 이미지 페이드인
+                {action: 'in', selector: selection5_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    selection4_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection4);
+                        }
+                    });
+                    selection5_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection5);
+                        }
+                    });
+                    selection4_idle.style.zIndex = 6;
+                    selection5_idle.style.zIndex = 6;
+                    canTouch = true;
+                }}, // 선택지 5 이미지 페이드인
+            ]
+
+            const selected_selection2 = [
+                {action: 'in', selector: selection2_selected, duration: 0, delay: 0}, // 선택지 2 이미지 페이드인
+                {action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 경고 이미지 페이드인
+
+                {action: 'out', selector: selection2_selected, duration: 0, delay: 0}, // 선택지 2 이미지 페이드아웃
+                {action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 경고 이미지 페이드아웃
+
+            ]
+
+            const selected_selection3 = [
+                {action: 'in', selector: selection3_selected, duration: 0, delay: 0}, // 선택지 3 이미지 페이드인
+                {action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 경고 이미지 페이드인
+
+                {action: 'out', selector: selection3_selected, duration: 0, delay: 0}, // 선택지 3 이미지 페이드아웃
+                {action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 경고 이미지 페이드아웃
+
+            ]
+
+            const selected_selection4 = [
+                {action: 'in', selector: selection4_selected, duration: 0, delay: 0}, // 선택지 4 이미지 페이드인
+                {action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 경고 이미지 페이드인
+
+                {action: 'out', selector: selection4_selected, duration: 0, delay: 0}, // 선택지 4 이미지 페이드아웃
+                {action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 경고 이미지 페이드아웃
+            ]
+
+            const selected_selection5 = [
+                {action: 'in', selector: selection5_selected, duration: 0, delay: 0, callback: () => {
+                    selection4_idle.style.zIndex = 0;
+                    selection5_idle.style.zIndex = 0;
+                }}, // 선택지 5 이미지 페이드인
+                {action: 'in', selector: chat2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 채팅 이미지 페이드인
+                {action: 'in', selector: chat2_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 채팅 이미지 페이드인
+
+                {action: 'in', selector: bg7, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg7_1, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: selection6_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 6 이미지 페이드인
+                {action: 'in', selector: selection7_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 7 이미지 페이드인
+                {action: 'in', selector: selection6_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    selection6_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection6);
+                        }
+                    });
+                    selection7_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection7);
+                        }
+                    });
+                    selection6_idle.style.zIndex = 6;
+                    selection7_idle.style.zIndex = 6;
+                    canTouch = true;
+                }}, // 선택지 6 이미지 페이드인
+            ]
+
+            const selected_selection6 = [
+                {action: 'in', selector: selection6_selected, duration: 0, delay: 0, callback: () => {
+                    selection6_idle.style.zIndex = 0;
+                    selection7_idle.style.zIndex = 0;
+                }}, // 선택지 6 이미지 페이드인
+                {action: 'in', selector: bg8, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: chat3, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 채팅 이미지 페이드인
+                {action: 'in', selector: chat3_2, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 채팅 이미지 페이드인
+                {action: 'in', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg9_1, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: selection8_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 8 이미지 페이드인
+                {action: 'in', selector: selection9_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 9 이미지 페이드인
+                {action: 'in', selector: selection8_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
+                    selection8_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection8);
+                        }
+                    });
+                    selection9_idle.addEventListener('click', () => {
+                        if (canTouch) {
+                            canTouch = false;
+                            runSequence(selected_selection9);
+                        }
+                    });
+                    selection8_idle.style.zIndex = 6;
+                    selection9_idle.style.zIndex = 6;
+                    canTouch = true;
+                }}, // 선택지 8 이미지 페이드인
+            ]
+
+            const selected_selection7 = [
+                {action: 'in', selector: selection7_selected, duration: 0, delay: 0}, // 선택지 7 이미지 페이드인
+                {action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 경고 이미지 페이드인
+
+                {action: 'out', selector: selection7_selected, duration: 0, delay: 0}, // 선택지 7 이미지 페이드아웃
+                {action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 경고 이미지 페이드아웃
+            ]
+
+            const selected_selection8 = [
+                {action: 'in', selector: selection8_selected, duration: 0, delay: 0}, // 선택지 8 이미지 페이드인
+                {action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 경고 이미지 페이드인
+
+                {action: 'out', selector: selection8_selected, duration: 0, delay: 0}, // 선택지 8 이미지 페이드아웃
+                {action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                }}, // 경고 이미지 페이드아웃
+            ]   
+
+            const selected_selection9 = [
+                {action: 'in', selector: selection9_selected, duration: 0, delay: 0, callback: () => {
+                    selection8_idle.style.zIndex = 0;
+                    selection9_idle.style.zIndex = 0;
+                }}, // 선택지 9 이미지 페이드인
+                {action: 'in', selector: bg10, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    // TODO: 사운드 재생
+                }}, // 배경 이미지 페이드인
+
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 1500}, // 화면 페이드인
+                {action: 'in', selector: bg11, duration: 0, delay: 0}, // 배경 이미지 페이드인
+
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+                
+                {action: 'in', selector: bg11_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: score_up, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 점수 증가 이미지 페이드인
+                {action: 'in', selector: success_text, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 성공 텍스트 이미지 페이드인
+                {action: 'in', selector: bg12, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                    canTouch = true;
+                    isTouched = false;
+                    isEnded = true;
+                }}, // 배경 이미지 페이드인
+
+            ]   
+
+            const animationSequence3 = [
+                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
+            ]
+
+            // Action
+
+            add_touch_event();
+
+            await runSequence(animationSequence1);
+            while (!isTouched) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            canTouch = false;
+            isTouched = false;
+            console.log("Animation Sequence 1 ended");
+
+            await runSequence(animationSequence2);
+
+            while (!isTouched || !isEnded) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            console.log("Animation Sequence 2 ended");
+
+            await runSequence(animationSequence3);
+
+            console.log("Animation Sequence 3 ended");
+
+            // Save the current time to localStorage
+            localStorage.setItem('timer_value', timer_value);
+            console.log("Timer value saved: ", timer_value);
+            window.location.href = '../pages/quest2.html';
 
         }
         
@@ -87,3 +393,18 @@
     </script>
 </body>
 </html>
+
+<!--
+
+수정 사항 리스트
+1. 빨강 배경 opacity 값 적용한 이미지로 교체체
+2. 3 2 1 카운트 시 배경의 글자 위치가 다름
+3. 통화 화면 어떤거는 배경이랑 같이 있고 어떤거는 통화 화면 UI만 있음 -> opacity 블렌딩됨
+4. 3번째 질문에 대한 답변1,2 위치가 다름
+
+
+
+
+
+
+-->

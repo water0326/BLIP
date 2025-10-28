@@ -23,7 +23,8 @@
     "width": 0,
     "height": 0,
     "src": "../static/img/quest1/a-2-2)0_0.png",
-    "opacity": 0
+    "opacity": 0,
+    "zIndex": 7
   },
   {
     "id": "quest_sequence",
@@ -68,7 +69,7 @@
     "y": 0,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest1/a-5.png",
+    "src": "../static/img/quest1/a-6.png",
     "opacity": 0
   },
   {
@@ -77,7 +78,7 @@
     "y": 0,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest1/a-5.png",
+    "src": "../static/img/quest1/a-7.png",
     "opacity": 0
   },
   {
@@ -86,7 +87,88 @@
     "y": 0,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest1/a-5.png",
+    "src": "../static/img/quest1/a-8.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg2_5",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-9.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg3",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-11.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg3_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-12.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg4",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-13.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg5",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-14.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg5_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15.png",
+    "opacity": 0
+  },
+  {
+    "id": "number_3",
+    "x": 624.5,
+    "y": 707.3,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-5-1)624.5_707.3.png",
+    "opacity": 0
+  },
+  {
+    "id": "number_2",
+    "x": 626.9,
+    "y": 707.3,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-6-1)626.9_707.3.png",
+    "opacity": 0
+  },
+  {
+    "id": "number_1",
+    "x": 641.3,
+    "y": 708.7,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-7-1)641.3_708.7.png",
     "opacity": 0
   },
   {
@@ -96,6 +178,339 @@
     "width": 0,
     "height": 0,
     "src": "../static/img/quest1/a-4-1)344_1085.png",
+    "opacity": 0
+  },
+  {
+    "id": "call_signal",
+    "x": 166.4,
+    "y": 962.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-13-1)-166.4_962.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection1_idle",
+    "x": 166.4,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-1)166.4_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection1_selected",
+    "x": 166.4,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-4)166.4_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection2_idle",
+    "x": 1002.7,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-2)1002.7_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection2_selected",
+    "x": 1002.7,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-5)1002.7_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection3_idle",
+    "x": 346.9,
+    "y": 1634.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-3)346.9_1634.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection3_selected",
+    "x": 346.9,
+    "y": 1634.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-15-6)346.9_1634.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat",
+    "x": 70,
+    "y": 642.7,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-16-1)70_642.7.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat_2",
+    "x": 830.2,
+    "y": 911.3,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-16-2)830.2_911.3.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg6",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-17.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection4_idle",
+    "x": 195,
+    "y": 1464.9,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-17-1)195_1464.9.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection4_selected",
+    "x": 195,
+    "y": 1464.9,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-17-3)195_1464.9.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection5_idle",
+    "x": 195,
+    "y": 1704.1,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-17-2)195_1704.1.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection5_selected",
+    "x": 195,
+    "y": 1704.1,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-17-4)195_1704.1.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat2",
+    "x": 70,
+    "y": 642.7,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-18-1)70_642.7.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat2_2",
+    "x": 632,
+    "y": 896.1,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-18-2)632_896.1.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg7",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-19.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg7_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-20.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection6_idle",
+    "x": 116,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-20-1)116_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection6_selected",
+    "x": 116,
+    "y": 1460.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-20-3)116_1460.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection7_idle",
+    "x": 116,
+    "y": 1656.3,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-20-2)116_1656.3.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection7_selected",
+    "x": 116,
+    "y": 1656.3,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-20-4)116_1656.3.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg8",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-21.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat3",
+    "x": 70,
+    "y": 642.7,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-21-1)70_642.7.png",
+    "opacity": 0
+  },
+  {
+    "id": "chat3_2",
+    "x": 671.4,
+    "y": 913.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-21-2)671.4_913.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg9",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-22.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg9_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-23.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection8_idle",
+    "x": 331,
+    "y": 1463.8,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-23-1_331_1463.8.png",
+    "opacity": 0
+  }, 
+  {
+    "id": "selection8_selected",
+    "x": 331,
+    "y": 1463.8,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-23-3)331_1463.8.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection9_idle",
+    "x": 200,
+    "y": 1646.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-23-2)200_1646.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "selection9_selected",
+    "x": 200,
+    "y": 1646.5,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-23-4)200_1646.5.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg10",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-24.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg11",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-26.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg11_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-27.png",
+    "opacity": 0
+  },
+  {
+    "id": "score_up",
+    "x": 857,
+    "y": 884.2,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-27-1)857_884.2.png",
+    "opacity": 0
+  },
+  {
+    "id": "success_text",
+    "x": 424.1,
+    "y": 2120.64,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-27-2)424.1_2120.64.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg12",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-28.png",
     "opacity": 0
   }
 ]

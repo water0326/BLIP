@@ -7,9 +7,10 @@
  * @param {HTMLElement} element - 페이드인할 요소
  * @param {number} duration - 애니메이션 지속시간 (밀리초, 기본값: 500)
  * @param {string} easing - 이징 함수 (기본값: 'ease-in-out')
+ * @param {Function} callback - 애니메이션 완료 후 실행할 콜백 함수
  * @returns {Promise} 애니메이션 완료 시 resolve되는 Promise
  */
-function fadeIn(element, duration = 500, easing = 'ease-in-out') {
+function fadeIn(element, duration = 500, easing = 'ease-in-out', callback = null) {
     return new Promise((resolve) => {
         if (!element) {
             console.warn('fadeIn: 요소가 존재하지 않습니다.');
@@ -17,18 +18,35 @@ function fadeIn(element, duration = 500, easing = 'ease-in-out') {
             return;
         }
 
-        // 초기 상태 설정
-        element.style.opacity = '0';
-        element.style.display = 'block';
-        element.style.transition = `opacity ${duration}ms ${easing}`;
+        // display가 none인 경우 먼저 block으로 설정하고 레이아웃 계산 대기
+        if (element.style.display === 'none' || getComputedStyle(element).display === 'none') {
+            element.style.display = 'block';
+            element.style.opacity = '0';
+            element.style.transition = 'none';
+            
+            // 레이아웃 계산을 위한 강제 리플로우
+            element.offsetHeight;
+            
+            // 다음 프레임에서 애니메이션 시작
+            requestAnimationFrame(() => {
+                element.style.transition = `opacity ${duration}ms ${easing}`;
+                element.style.opacity = '1';
+            });
+        } else {
+            // 이미 보이는 상태라면 일반적인 페이드인
+            element.style.opacity = '0';
+            element.style.transition = `opacity ${duration}ms ${easing}`;
+            
+            requestAnimationFrame(() => {
+                element.style.opacity = '1';
+            });
+        }
 
-        // 다음 프레임에서 애니메이션 시작
-        requestAnimationFrame(() => {
-            element.style.opacity = '1';
-        });
-
-        // 애니메이션 완료 시 resolve
+        // 애니메이션 완료 시 resolve 및 콜백 실행
         setTimeout(() => {
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
             resolve();
         }, duration);
     });
@@ -39,9 +57,10 @@ function fadeIn(element, duration = 500, easing = 'ease-in-out') {
  * @param {HTMLElement} element - 페이드아웃할 요소
  * @param {number} duration - 애니메이션 지속시간 (밀리초, 기본값: 500)
  * @param {string} easing - 이징 함수 (기본값: 'ease-in-out')
+ * @param {Function} callback - 애니메이션 완료 후 실행할 콜백 함수
  * @returns {Promise} 애니메이션 완료 시 resolve되는 Promise
  */
-function fadeOut(element, duration = 500, easing = 'ease-in-out') {
+function fadeOut(element, duration = 500, easing = 'ease-in-out', callback = null) {
     return new Promise((resolve) => {
         if (!element) {
             console.warn('fadeOut: 요소가 존재하지 않습니다.');
@@ -58,9 +77,12 @@ function fadeOut(element, duration = 500, easing = 'ease-in-out') {
             element.style.opacity = '0';
         });
 
-        // 애니메이션 완료 후 display none으로 설정
+        // 애니메이션 완료 후 display none으로 설정 및 콜백 실행
         setTimeout(() => {
             element.style.display = 'none';
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
             resolve();
         }, duration);
     });
@@ -71,9 +93,10 @@ function fadeOut(element, duration = 500, easing = 'ease-in-out') {
  * @param {HTMLElement} element - 토글할 요소
  * @param {number} duration - 애니메이션 지속시간 (밀리초, 기본값: 500)
  * @param {string} easing - 이징 함수 (기본값: 'ease-in-out')
+ * @param {Function} callback - 애니메이션 완료 후 실행할 콜백 함수
  * @returns {Promise} 애니메이션 완료 시 resolve되는 Promise
  */
-function fadeToggle(element, duration = 500, easing = 'ease-in-out') {
+function fadeToggle(element, duration = 500, easing = 'ease-in-out', callback = null) {
     if (!element) {
         console.warn('fadeToggle: 요소가 존재하지 않습니다.');
         return Promise.resolve();
@@ -84,9 +107,9 @@ function fadeToggle(element, duration = 500, easing = 'ease-in-out') {
                      getComputedStyle(element).opacity !== '0';
 
     if (isVisible) {
-        return fadeOut(element, duration, easing);
+        return fadeOut(element, duration, easing, callback);
     } else {
-        return fadeIn(element, duration, easing);
+        return fadeIn(element, duration, easing, callback);
     }
 }
 
@@ -95,11 +118,15 @@ function fadeToggle(element, duration = 500, easing = 'ease-in-out') {
  * @param {HTMLElement[]} elements - 페이드인할 요소 배열
  * @param {number} duration - 각 요소의 애니메이션 지속시간 (밀리초, 기본값: 500)
  * @param {number} delay - 요소 간 지연시간 (밀리초, 기본값: 100)
+ * @param {Function} callback - 모든 애니메이션 완료 후 실행할 콜백 함수
  * @returns {Promise} 모든 애니메이션 완료 시 resolve되는 Promise
  */
-function fadeInSequence(elements, duration = 500, delay = 100) {
+function fadeInSequence(elements, duration = 500, delay = 100, callback = null) {
     return new Promise((resolve) => {
         if (!elements || elements.length === 0) {
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
             resolve();
             return;
         }
@@ -112,6 +139,9 @@ function fadeInSequence(elements, duration = 500, delay = 100) {
                 fadeIn(element, duration).then(() => {
                     completed++;
                     if (completed === total) {
+                        if (callback && typeof callback === 'function') {
+                            callback();
+                        }
                         resolve();
                     }
                 });
@@ -125,11 +155,15 @@ function fadeInSequence(elements, duration = 500, delay = 100) {
  * @param {HTMLElement[]} elements - 페이드아웃할 요소 배열
  * @param {number} duration - 각 요소의 애니메이션 지속시간 (밀리초, 기본값: 500)
  * @param {number} delay - 요소 간 지연시간 (밀리초, 기본값: 100)
+ * @param {Function} callback - 모든 애니메이션 완료 후 실행할 콜백 함수
  * @returns {Promise} 모든 애니메이션 완료 시 resolve되는 Promise
  */
-function fadeOutSequence(elements, duration = 500, delay = 100) {
+function fadeOutSequence(elements, duration = 500, delay = 100, callback = null) {
     return new Promise((resolve) => {
         if (!elements || elements.length === 0) {
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
             resolve();
             return;
         }
@@ -142,6 +176,9 @@ function fadeOutSequence(elements, duration = 500, delay = 100) {
                 fadeOut(element, duration).then(() => {
                     completed++;
                     if (completed === total) {
+                        if (callback && typeof callback === 'function') {
+                            callback();
+                        }
                         resolve();
                     }
                 });
@@ -155,8 +192,9 @@ function fadeOutSequence(elements, duration = 500, delay = 100) {
  * @param {string|HTMLElement} selector - CSS 선택자 또는 DOM 요소
  * @param {string} action - 'in', 'out', 'toggle' 중 하나
  * @param {number} duration - 애니메이션 지속시간 (밀리초, 기본값: 500)
+ * @param {Function} callback - 애니메이션 완료 후 실행할 콜백 함수
  */
-function fade(selector, action = 'toggle', duration = 500) {
+function fade(selector, action = 'toggle', duration = 500, callback = null) {
     const element = typeof selector === 'string' 
         ? document.querySelector(selector) 
         : selector;
@@ -168,13 +206,77 @@ function fade(selector, action = 'toggle', duration = 500) {
 
     switch (action.toLowerCase()) {
         case 'in':
-            return fadeIn(element, duration);
+            return fadeIn(element, duration, 'ease-in-out', callback);
         case 'out':
-            return fadeOut(element, duration);
+            return fadeOut(element, duration, 'ease-in-out', callback);
         case 'toggle':
-            return fadeToggle(element, duration);
+            return fadeToggle(element, duration, 'ease-in-out', callback);
         default:
             console.warn(`fade: 알 수 없는 액션입니다. (${action})`);
+    }
+}
+
+/**
+ * 시퀀스 실행을 위한 헬퍼 함수들
+ */
+
+/**
+ * 여러 애니메이션을 순차적으로 실행
+ * @param {Array} sequence - 실행할 애니메이션 배열 [{action, selector, duration, delay, callback}, ...]
+ * @returns {Promise} 모든 애니메이션 완료 시 resolve되는 Promise
+ */
+async function runSequence(sequence) {
+    for (const step of sequence) {
+        const { action, selector, duration = 500, delay = 0, callback = null } = step;
+        
+        if (delay > 0) {
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+        
+        await fade(selector, action, duration);
+        
+        // 각 단계 완료 후 callback 실행
+        if (callback && typeof callback === 'function') {
+            callback();
+        }
+    }
+}
+
+/**
+ * 여러 애니메이션을 병렬로 실행
+ * @param {Array} parallel - 실행할 애니메이션 배열 [{action, selector, duration, delay}, ...]
+ * @returns {Promise} 모든 애니메이션 완료 시 resolve되는 Promise
+ */
+async function runParallel(parallel) {
+    const promises = parallel.map(step => {
+        const { action, selector, duration = 500, delay = 0 } = step;
+        
+        return new Promise(resolve => {
+            setTimeout(async () => {
+                await fade(selector, action, duration);
+                resolve();
+            }, delay);
+        });
+    });
+    
+    await Promise.all(promises);
+}
+
+/**
+ * 반복 애니메이션 실행
+ * @param {string|HTMLElement} selector - CSS 선택자 또는 DOM 요소
+ * @param {string} action - 'in', 'out', 'toggle' 중 하나
+ * @param {number} duration - 애니메이션 지속시간 (밀리초)
+ * @param {number} interval - 반복 간격 (밀리초)
+ * @param {number} count - 반복 횟수
+ * @returns {Promise} 모든 반복 완료 시 resolve되는 Promise
+ */
+async function repeatAnimation(selector, action, duration = 500, interval = 1000, count = 1) {
+    for (let i = 0; i < count; i++) {
+        await fade(selector, action, duration);
+        if (i < count - 1) {
+            await new Promise(resolve => setTimeout(resolve, interval));
+        }
     }
 }
 
@@ -185,3 +287,6 @@ window.fadeToggle = fadeToggle;
 window.fadeInSequence = fadeInSequence;
 window.fadeOutSequence = fadeOutSequence;
 window.fade = fade;
+window.runSequence = runSequence;
+window.runParallel = runParallel;
+window.repeatAnimation = repeatAnimation;

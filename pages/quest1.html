@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLIP - Main</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/overlay-tool.css">
+    <link rel="stylesheet" href="../css/quest1.css">
+</head>
+<body>
+
+    <div class="screen_fader"></div>
+
+    <div id="timer">+ 5분 0초</div>
+    <div id="total_timer">+ 0분 0초</div>
+
+    <script src="../utils/comp.js"></script>
+    <script src="../utils/overlay-tool.js"></script>
+    <script src="../utils/effects/fade.js"></script>
+    <script>
+
+
+        var timer_value = 0;
+
+        function start_timer() {
+            const timer = document.getElementById('timer');
+            const total_timer = document.getElementById('total_timer');
+            setInterval(() => {
+                timer_value++;
+                timer.textContent = `+ ${Math.floor((timer_value + 300) / 60)}분 ${(timer_value + 300) % 60}초`;
+                total_timer.textContent = `+ ${Math.floor(timer_value / 60)}분 ${timer_value % 60}초`;
+            }, 1000);
+        }
+
+        async function initComponents() {
+            const componentsDict = await renderImageComponents('body', '../data/quest1_comps.json');
+
+            // Components
+            const bg1 = componentsDict['bg1'];
+            const bg2 = componentsDict['bg2'];
+
+            const quest = componentsDict['quest'];
+            const warning = componentsDict['warning'];
+            const quest_sequence = componentsDict['quest_sequence'];
+            const time = componentsDict['time'];
+
+            const timer = document.getElementById('timer');
+            const total_timer = document.getElementById('total_timer');
+            // Animation Sequence
+            const animationSequence = [
+                { action: 'out', selector: '.screen_fader', duration: 1000 }, // 화면 전환
+                { action: 'in', selector: quest, duration: 300, delay: 300 }, // 퀘스트 이미지 페이드인
+
+                { action: 'in', selector: warning, duration: 300, delay: 300 }, // 경고 이미지 토글(6번)
+                { action: 'out', selector: warning, duration: 300, delay: 300 },
+                { action: 'in', selector: warning, duration: 300, delay: 300 },
+                { action: 'out', selector: warning, duration: 300, delay: 300 },
+                { action: 'in', selector: warning, duration: 300, delay: 300 },
+                { action: 'out', selector: warning, duration: 300, delay: 300 },
+
+                { action: 'out', selector: quest, duration: 300, delay: 300 }, // 퀘스트 이미지 페이드아웃
+
+                { action: 'in', selector: quest_sequence, duration: 300, delay: 300 }, // 퀘스트 시퀀스 이미지 페이드인
+                { action: 'in', selector: time, duration: 300, callback: () => start_timer() }, // 시간 이미지 페이드인
+                { action: 'in', selector: timer, duration: 300 }, // 시간 텍스트 페이드인
+                { action: 'in', selector: total_timer, duration: 300 }, // 총 시간 텍스트 페이드인
+
+                {action: 'in', selector: '.screen_fader', duration: 300, delay: 2000}, // 화면 페이드인
+
+                {action: 'out', selector: bg1, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg2, duration: 0, delay: 0}, // 배경 이미지 페이드인
+
+                {action: 'out', selector: '.screen_fader', duration: 300, delay: 2000}, // 화면 페이드아웃
+                {action: 'in', selector: wait, duration: 300, delay: 300}, // 대기 이미지 페이드인
+
+                {action: 'out', selector: wait, duration: 300, delay: 300}, // 대기 이미지 페이드아웃
+            ];
+
+            await runSequence(animationSequence);
+            console.log('screen fadeout completed');
+            console.log('quest fadein completed');
+
+        }
+        
+        initComponents();
+    </script>
+</body>
+</html>

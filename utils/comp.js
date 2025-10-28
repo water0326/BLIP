@@ -46,6 +46,16 @@ function createImageElement(comp) {
         img.style.height = `${comp.height}px`;
     }
     
+    // opacity 설정 (기본값: 1, 0-1 사이의 값)
+    const opacity = comp.opacity !== undefined ? comp.opacity : 1;
+    if (opacity >= 0 && opacity <= 1) {
+        img.style.opacity = opacity;
+    }
+    
+    // z-index 설정 (기본값: 0)
+    const zIndex = comp.zIndex !== undefined ? comp.zIndex : 0;
+    img.style.zIndex = zIndex;
+    
     // 기본 스타일 추가
     img.style.border = 'none';
     

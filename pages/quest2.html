@@ -83,6 +83,29 @@
                 20: componentsDict['count_20']
             }
 
+            const countToElementMapping = {
+                1: componentsDict['count_1_2'],
+                2: componentsDict['count_2_2'],
+                3: componentsDict['count_3_2'],
+                4: componentsDict['count_4_2'],
+                5: componentsDict['count_5_2'],
+                6: componentsDict['count_6_2'],
+                7: componentsDict['count_7_2'],
+                8: componentsDict['count_8_2'],
+                9: componentsDict['count_9_2'],
+                10: componentsDict['count_10_2'],
+                11: componentsDict['count_11_2'],
+                12: componentsDict['count_12_2'],
+                13: componentsDict['count_13_2'],
+                14: componentsDict['count_14_2'],
+                15: componentsDict['count_15_2'],
+                16: componentsDict['count_16_2'],
+                17: componentsDict['count_17_2'],
+                18: componentsDict['count_18_2'],
+                19: componentsDict['count_19_2'],
+                20: componentsDict['count_20_2']
+            }
+
             const animationSequence1 = [
                 {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY+1000}, // 화면 페이드아웃
 
@@ -141,6 +164,7 @@
             ];
 
             const animationSequence5 = [
+                {action: 'out', selector: count_20_2, duration: 0, delay: 0}, // 카운트 2 이미지 페이드아웃
                 {action: 'in', selector: bg10, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 배경 이미지 페이드인
                 {action: 'in', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
                 {action: 'out', selector: bg10_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드아웃
@@ -212,8 +236,17 @@
                     canTouch = false;
                     await new Promise(resolve => setTimeout(resolve, 100));
                     const currentElement = numberToElementMapping[touch_count];
+                    let prevCountElement = null;
+                    if(touch_count > 1) {
+                        prevCountElement = countToElementMapping[touch_count - 1];
+                    }
+                    const currentCountElement = countToElementMapping[touch_count];
                     if (currentElement) {
                         await fadeIn(currentElement, 0);
+                        if (prevCountElement) {
+                            await fadeOut(prevCountElement, 0);
+                        }
+                        await fadeIn(currentCountElement, 0);
                         if(touch_count == 1) {
                             await fadeIn(bg8, 0);
                         }
@@ -252,8 +285,17 @@
 
                 // 터치 시작 시 해당 count element를 fade in
                 if (isTouched && isTouching) {
+                    let prevCountElement = null;
+                    if(touch_count > 1) {
+                        prevCountElement = countToElementMapping[touch_count - 1];
+                    }
+                    const currentCountElement = countToElementMapping[touch_count];
                     const currentElement = numberToElementMapping[touch_count];
                     if (currentElement) {
+                        if (prevCountElement) {
+                            await fadeOut(prevCountElement, 0);
+                        }
+                        await fadeIn(currentCountElement, 0);
                         await fadeIn(currentElement, 0);
                     }
                 }

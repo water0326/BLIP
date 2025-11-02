@@ -146,7 +146,7 @@
   },
   {
     "id": "number_3",
-    "x": 624.5,
+    "x": 664.5,
     "y": 707.3,
     "width": 0,
     "height": 0,
@@ -155,7 +155,7 @@
   },
   {
     "id": "number_2",
-    "x": 626.9,
+    "x": 666.9,
     "y": 707.3,
     "width": 0,
     "height": 0,
@@ -164,7 +164,7 @@
   },
   {
     "id": "number_1",
-    "x": 641.3,
+    "x": 681.3,
     "y": 708.7,
     "width": 0,
     "height": 0,
@@ -466,6 +466,15 @@
     "width": 0,
     "height": 0,
     "src": "../static/img/quest1/a-24.png",
+    "opacity": 0
+  },
+  {
+    "id": "bg10_1",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0,
+    "src": "../static/img/quest1/a-24-1.png",
     "opacity": 0
   },
   {

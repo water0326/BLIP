@@ -221,23 +221,84 @@ function fade(selector, action = 'toggle', duration = 500, callback = null) {
  */
 
 /**
+ * 시퀀스 단계에서 오디오를 재생하고 완료를 추적
+ * @param {string} audioName - static/audio 하위의 파일명
+ * @returns {Promise|null} 오디오 종료를 기다리는 Promise (생성 실패 시 null)
+ */
+function playSequenceAudio(audioName) {
+    if (!audioName) {
+        return null;
+    }
+
+    try {
+        const audioUrl = new URL(`../static/audio/${audioName}`, window.location.href);
+        const audio = new Audio(audioUrl.href);
+
+        const waitPromise = new Promise((resolve) => {
+            let finished = false;
+
+            function cleanup() {
+                if (finished) {
+                    return;
+                }
+                finished = true;
+                audio.removeEventListener('ended', onEnded);
+                audio.removeEventListener('error', onError);
+                resolve();
+            }
+
+            function onEnded() {
+                cleanup();
+            }
+
+            function onError(event) {
+                console.warn(`runSequence: 오디오 재생 중 오류가 발생했습니다. (${audioName})`, event && event.error ? event.error : event);
+                cleanup();
+            }
+
+            audio.addEventListener('ended', onEnded, { once: true });
+            audio.addEventListener('error', onError, { once: true });
+
+            const playResult = audio.play();
+            if (playResult && typeof playResult.catch === 'function') {
+                playResult.catch((error) => {
+                    console.warn(`runSequence: 오디오를 재생할 수 없습니다. (${audioName})`, error);
+                    cleanup();
+                });
+            }
+        });
+
+        return waitPromise;
+    } catch (error) {
+        console.warn(`runSequence: 오디오 경로를 생성할 수 없습니다. (${audioName})`, error);
+        return null;
+    }
+}
+
+/**
  * 여러 애니메이션을 순차적으로 실행
- * @param {Array} sequence - 실행할 애니메이션 배열 [{action, selector, duration, delay, callback}, ...]
+ * @param {Array} sequence - 실행할 애니메이션 배열 [{action, selector, duration, delay, callback, audio_name, audio_sequence}, ...]
  * @returns {Promise} 모든 애니메이션 완료 시 resolve되는 Promise
  */
 async function runSequence(sequence) {
     for (const step of sequence) {
-        const { action, selector, duration = 500, delay = 0, callback = null } = step;
+        const { action, selector, duration = 500, delay = 0, callback = null, audio_name = null, audio_sequence = false } = step;
         
         if (delay > 0) {
             await new Promise(resolve => setTimeout(resolve, delay));
         }
         
+        const audioPromise = audio_name ? playSequenceAudio(audio_name) : null;
+
         await fade(selector, action, duration);
         
         // 각 단계 완료 후 callback 실행
         if (callback && typeof callback === 'function') {
             callback();
+        }
+
+        if (audio_sequence && audioPromise) {
+            await audioPromise;
         }
     }
 }

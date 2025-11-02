@@ -13,7 +13,7 @@
     <div class="screen_fader"></div>
 
     <script src="../utils/comp.js"></script>
-    <script src="../utils/overlay-tool.js"></script>
+    
     <script src="../utils/effects/fade.js"></script>
     <script>
         async function initComponents() {
@@ -24,12 +24,34 @@
                     // quest1 페이지로 이동
                     window.location.href = '../pages/quest1.html';
                 });
-            });
+            },);
 
             if (localStorage.getItem('reset') == "true") {
                 localStorage.setItem('reset', "false");
                 location.reload();
             }
+
+            // intro.m4a 오디오 무한 반복
+            let introAudio = null;
+            let audioStarted = false;
+            
+            function startAudio() {
+                if (audioStarted) return;
+                audioStarted = true;
+                
+                if (!introAudio) {
+                    introAudio = new Audio('../static/audio/intro.m4a');
+                    introAudio.loop = true;
+                }
+                
+                introAudio.play().catch(error => {
+                    console.log('오디오 재생 실패:', error);
+                    audioStarted = false;
+                });
+            }
+            
+            // 사용자 상호작용 후에만 오디오 시작
+            document.body.addEventListener('touchend', startAudio, { once: true });
 
         }
         

@@ -16,7 +16,7 @@
     <div id="total_timer">+ 0분 0초</div>
 
     <script src="../utils/comp.js"></script>
-    <script src="../utils/overlay-tool.js"></script>
+    
     <script src="../utils/effects/fade.js"></script>
     <script>
 
@@ -83,7 +83,7 @@
                 { action: 'out', selector: '.screen_fader', duration: 1000 }, // 화면 전환
                 { action: 'in', selector: quest, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 퀘스트 이미지 페이드인
 
-                { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY }, // 경고 이미지 토글(6번)
+                { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, audio_name: 'siren.mp3', audio_sequence: false }, // 경고 이미지 토글(6번)
                 { action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
                 { action: 'in', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
                 { action: 'out', selector: warning, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY },
@@ -105,7 +105,7 @@
                 {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 2000}, // 화면 페이드아웃
                 {action: 'in', selector: wait, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 대기 이미지 페이드인
 
-                {action: 'out', selector: wait, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 대기 이미지 페이드아웃
+                {action: 'out', selector: wait, duration: DEFAULT_FADE_DURATION, delay: 2000}, // 대기 이미지 페이드아웃
 
                 {action: 'in', selector: number_3, duration: 0, delay: 0}, // 숫자 3 이미지 페이드인
                 {action: 'in', selector: bg2_1, duration: 0, delay: 0}, // 숫자 2 이미지 페이드인
@@ -121,19 +121,16 @@
 
                 {action: 'in', selector: bg2_4, duration: 0, delay: 0}, // 숫자 1 이미지 페이드인
 
-                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
-                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
+                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 숫자 1 이미지 페이드아웃
 
-                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
-                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
-
-                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드인
-                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 숫자 1 이미지 페이드아웃
+                {action: 'in', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 숫자 1 이미지 페이드인
+                {action: 'out', selector: bg2_5, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 숫자 1 이미지 페이드아웃
 
                 {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 0}, // 화면 페이드인
                 {action: 'in', selector: bg3, duration: 0, delay: 0}, // 배경 이미지 페이드인
                 {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드아웃
-                {action: 'in', selector: bg3_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => canTouch = true}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg3_1, duration: 1000, delay: DEFAULT_FADE_DELAY, callback: () => canTouch = true}, // 배경 이미지 페이드인
             ];
 
             const animationSequence2 = [
@@ -142,11 +139,11 @@
                     // call_signal이 나온 후 1초 동안 왼쪽으로 이동
                     call_signal.style.transition = 'transform 1s linear';
                     call_signal.style.transform = 'translateX(-600px)';
-                }}, // 통화 신호 이미지 페이드인
+                }, audio_name: 'calling.mp3', audio_sequence: false}, // 통화 신호 이미지 페이드인
                 {action: 'out', selector: call_signal, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 통화 신호 이미지 페이드아웃
 
                 {action: 'in', selector: bg5, duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드인
-                {action: 'in', selector: bg5_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg5_1, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, audio_name: 'dialog_1.mp3', audio_sequence: true}, // 배경 이미지 페이드인
 
                 {action: 'in', selector: selection1_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 1 이미지 페이드인
                 {action: 'in', selector: selection2_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 2 이미지 페이드인
@@ -191,7 +188,7 @@
                 {action: 'in', selector: chat, duration: DEFAULT_FADE_DURATION, delay: 0}, // 배경 이미지 페이드인
                 {action: 'in', selector: chat_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
 
-                {action: 'in', selector: bg6, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg6, duration: DEFAULT_FADE_DURATION, delay: 1500, audio_name: 'dialog_2.mp3', audio_sequence: true}, // 배경 이미지 페이드인
                 {action: 'in', selector: selection4_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 4 이미지 페이드인
                 {action: 'in', selector: selection5_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 5 이미지 페이드인
                 {action: 'in', selector: selection5_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
@@ -253,8 +250,8 @@
                 {action: 'in', selector: chat2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 채팅 이미지 페이드인
                 {action: 'in', selector: chat2_2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 채팅 이미지 페이드인
 
-                {action: 'in', selector: bg7, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
-                {action: 'in', selector: bg7_1, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg7, duration: DEFAULT_FADE_DURATION, delay: 1500, audio_name: 'dialog_3.mp3', audio_sequence: true}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg7_1, duration: DEFAULT_FADE_DURATION, delay: 1500, audio_name: 'dialog_4.mp3', audio_sequence: true}, // 배경 이미지 페이드인
 
                 {action: 'in', selector: selection6_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 6 이미지 페이드인
                 {action: 'in', selector: selection7_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 7 이미지 페이드인
@@ -285,8 +282,8 @@
                 {action: 'in', selector: bg8, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 배경 이미지 페이드인
                 {action: 'in', selector: chat3, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 채팅 이미지 페이드인
                 {action: 'in', selector: chat3_2, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 채팅 이미지 페이드인
-                {action: 'in', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
-                {action: 'in', selector: bg9_1, duration: DEFAULT_FADE_DURATION, delay: 1500}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg9, duration: DEFAULT_FADE_DURATION, delay: 1500, audio_name: 'dialog_5.mp3', audio_sequence: true}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg9_1, duration: DEFAULT_FADE_DURATION, delay: 1500, audio_name: 'dialog_6.mp3', audio_sequence: true}, // 배경 이미지 페이드인
                 {action: 'in', selector: selection8_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 8 이미지 페이드인
                 {action: 'in', selector: selection9_idle, duration: DEFAULT_FADE_DURATION, delay: 0}, // 선택지 9 이미지 페이드인
                 {action: 'in', selector: selection8_idle, duration: DEFAULT_FADE_DURATION, delay: 0, callback: () => {
@@ -333,9 +330,7 @@
                     selection8_idle.style.zIndex = 0;
                     selection9_idle.style.zIndex = 0;
                 }}, // 선택지 9 이미지 페이드인
-                {action: 'in', selector: bg10, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
-                    // TODO: 사운드 재생
-                }}, // 배경 이미지 페이드인
+                {action: 'in', selector: bg10, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, audio_name: 'dialog_7.mp3', audio_sequence: true}, // 배경 이미지 페이드인
 
                 {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: 1500}, // 화면 페이드인
                 {action: 'in', selector: bg11, duration: 0, delay: 0}, // 배경 이미지 페이드인

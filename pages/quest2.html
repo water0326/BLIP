@@ -16,7 +16,7 @@
     <div id="total_timer">+ 0분 0초</div>
 
     <script src="../utils/comp.js"></script>
-    <script src="../utils/overlay-tool.js"></script>
+    
     <script src="../utils/effects/fade.js"></script>
     <script>
 
@@ -48,9 +48,7 @@
                 }
             });
             document.addEventListener('touchend', () => {
-                if (canTouch) { 
-                    isTouching = false;
-                }
+                isTouching = false;
             });
         }
 
@@ -86,7 +84,7 @@
             }
 
             const animationSequence1 = [
-                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드아웃
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY+1000}, // 화면 페이드아웃
 
                 {action: 'in', selector: bg1_1, duration: DEFAULT_FADE_DURATION, delay: 1000}, // 배경 이미지 페이드인
 
@@ -100,6 +98,7 @@
 
                 {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
                 {action: 'in', selector: bg2, duration: 0, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: touch, duration: 0, delay: 0}, // 터치 이미지 페이드인
                 {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
                     canTouch = true;
                 }}, // 화면 페이드인
@@ -107,10 +106,9 @@
             ];  
 
             const animationSequence2 = [
-                {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
-                {action: 'in', selector: bg3, duration: 0, delay: 0}, // 배경 이미지 페이드인
-                {action: 'in', selector: hand1, duration: 0, delay: 0}, // 손 이미지 페이드인
-                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY, callback: () => {
+                {action: 'in', selector: bg3, duration: 1000, delay: 0}, // 배경 이미지 페이드인
+                {action: 'in', selector: hand1, duration: DEFAULT_FADE_DURATION, delay: 0}, // 손 이미지 페이드인
+                {action: 'out', selector: '.screen_fader', duration: 0, delay: 0, callback: () => {
                     canTouch = true;
                 }}, // 화면 페이드인
                 {action: 'in', selector: hand2, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 손 이미지 페이드인
@@ -153,7 +151,7 @@
 
                 {action: 'in', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 화면 페이드인
                 {action: 'in', selector: bg11, duration: 0, delay: 0}, // 배경 이미지 페이드인
-                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY},
+                {action: 'out', selector: '.screen_fader', duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY+1000},
 
                 {action: 'in', selector: success_popup, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 성공 팝업 이미지 페이드인
                 {action: 'in', selector: score_up, duration: DEFAULT_FADE_DURATION, delay: DEFAULT_FADE_DELAY}, // 점수 증가 이미지 페이드인
@@ -201,6 +199,8 @@
 
             await runSequence(animationSequence3);
 
+            touch_count = 0;
+
             while (touch_count <= 10) {
 
                 while (!isTouching) {
@@ -209,6 +209,8 @@
                 
                 // 터치 시작 시 해당 count element를 fade in
                 if (isTouched && isTouching) {
+                    canTouch = false;
+                    await new Promise(resolve => setTimeout(resolve, 100));
                     const currentElement = numberToElementMapping[touch_count];
                     if (currentElement) {
                         await fadeIn(currentElement, 0);
@@ -227,6 +229,7 @@
                     const currentElement = numberToElementMapping[touch_count];
                     if (currentElement) {
                         await fadeOut(currentElement, 0);
+                        canTouch = true;
                         if(touch_count == 10) {
                             break;
                         }

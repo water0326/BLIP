@@ -5,7 +5,7 @@
     "y": 77.2,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/a-2-4)891.8_77.2.png",
+    "src": "../static/img/quest3/a-2-4.png",
     "zIndex": 8
   },
   {
@@ -68,7 +68,7 @@
     "y": 96.8,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-1)44.6_96.8.png",
+    "src": "../static/img/quest3/c-6-1.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -78,7 +78,7 @@
     "y": 1160.4,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-2)760.2_1160.4.png",
+    "src": "../static/img/quest3/c-6-2.png",
     "opacity": 0
   },
   {
@@ -168,7 +168,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-11)953.4_524.png",
+    "src": "../static/img/quest3/c-6-11.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -178,7 +178,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-12)953.4_524.png",
+    "src": "../static/img/quest3/c-6-12-1.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -188,7 +188,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-13)953.4_524.png",
+    "src": "../static/img/quest3/c-6-12.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -198,7 +198,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-14)953.4_524.png",
+    "src": "../static/img/quest3/c-6-13.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -208,7 +208,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-15)953.4_524.png",
+    "src": "../static/img/quest3/c-6-14.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -218,7 +218,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-16)953.4_524.png",
+    "src": "../static/img/quest3/c-6-15.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -228,7 +228,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-17)953.4_524.png",
+    "src": "../static/img/quest3/c-6-16.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -238,7 +238,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-18)953.4_524.png",
+    "src": "../static/img/quest3/c-6-17.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -248,7 +248,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-19)953.4_524.png",
+    "src": "../static/img/quest3/c-6-18.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -258,7 +258,7 @@
     "y": 524,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-6-20)953.4_524.png",
+    "src": "../static/img/quest3/c-6-19.png",
     "opacity": 0,
     "zIndex": 10
   },
@@ -295,7 +295,7 @@
     "y": 1040.4,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-9-1)929.8_1040.4.png",
+    "src": "../static/img/quest3/c-9-1.png",
     "opacity": 0
   },
   {
@@ -322,7 +322,7 @@
     "y": 2020.6,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-11-1)205_2020.6.png",
+    "src": "../static/img/quest3/c-11-1.png",
     "opacity": 0
   },
   {
@@ -331,7 +331,7 @@
     "y": 2020.6,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-12-1)205_2020.6.png",
+    "src": "../static/img/quest3/c-12-1.png",
     "opacity": 0
   },
   {
@@ -340,7 +340,7 @@
     "y": 801,
     "width": 0,
     "height": 0,
-    "src": "../static/img/quest3/c-12-2)93_801.png",
+    "src": "../static/img/quest3/c-12-2.png",
     "opacity": 0
   }
 ]

@@ -35,15 +35,21 @@ function createImageElement(comp) {
     img.src = comp.src || '';
     img.alt = `이미지 ${comp.id}`;
     
-    // 위치 및 크기 설정
+    // 위치 설정
     img.style.position = 'absolute';
     img.style.left = `${comp.x}px`;
     img.style.top = `${comp.y}px`;
-    if(comp.width > 0) {
-        img.style.width = `${comp.width}px`;
-    }
-    if(comp.height > 0) {
-        img.style.height = `${comp.height}px`;
+    
+    // 이미지가 로드된 후 실제 크기의 2배로 설정
+    img.onload = function() {
+        img.style.width = `${img.naturalWidth * 2}px`;
+        img.style.height = `${img.naturalHeight * 2}px`;
+    };
+    
+    // 이미지가 이미 로드된 경우 (캐시된 경우)
+    if (img.complete && img.naturalWidth > 0) {
+        img.style.width = `${img.naturalWidth * 2}px`;
+        img.style.height = `${img.naturalHeight * 2}px`;
     }
     
     // opacity 설정 (기본값: 1, 0-1 사이의 값)

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/overlay-tool.css">
     <link rel="stylesheet" href="../css/quest2.css">
+    
+    <!-- quest3.html 미리 로딩 -->
+    <link rel="prefetch" href="../pages/quest3.html">
+    <link rel="prefetch" href="../data/quest3_comps.json">
+    <link rel="prefetch" href="../css/quest3.css">
 </head>
 <body>
 
@@ -57,6 +62,12 @@
 
         async function initComponents() {
             const componentsDict = await renderImageComponents('body', '../data/quest2_comps.json');
+            
+            // quest3.html을 미리 로딩 (백그라운드에서)
+            fetch('../pages/quest3.html')
+                .then(() => console.log('quest3.html 미리 로딩 완료'))
+                .catch(() => console.log('quest3.html 미리 로딩 실패'));
+            
             const timer = document.getElementById('timer');
             const total_timer = document.getElementById('total_timer');
 

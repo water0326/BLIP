@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/overlay-tool.css">
     <link rel="stylesheet" href="../css/main.css">
+    
+    <!-- quest1.html 미리 로딩 -->
+    <link rel="prefetch" href="../pages/quest1.html">
+    <link rel="prefetch" href="../data/quest1_comps.json">
+    <link rel="prefetch" href="../css/quest1.css">
 </head>
 <body>
 
@@ -19,6 +24,12 @@
         async function initComponents() {
             const componentsDict = await renderImageComponents('body', '../data/main_comps.json');
             const mainButton = componentsDict['main_button'];
+            
+            // quest1.html을 미리 로딩 (백그라운드에서)
+            fetch('../pages/quest1.html')
+                .then(() => console.log('quest1.html 미리 로딩 완료'))
+                .catch(() => console.log('quest1.html 미리 로딩 실패'));
+            
             mainButton.addEventListener('click', () => {
                 fade('.screen_fader', 'in', 1000, () => {
                     // quest1 페이지로 이동

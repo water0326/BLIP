@@ -69,18 +69,134 @@ function createImageElement(comp) {
 }
 
 /**
+ * 이미지들이 완전히 로드될 때까지 대기
+ * @param {string|Array|NodeList|Object|HTMLImageElement} images - 대기할 이미지 집합
+ * @returns {Promise<void>}
+ */
+async function waitForImagesLoaded(images) {
+    if (!images) {
+        return;
+    }
+
+    let imageList = [];
+
+    if (typeof images === 'string') {
+        imageList = Array.from(document.querySelectorAll(images));
+    } else if (images instanceof HTMLImageElement) {
+        imageList = [images];
+    } else if (Array.isArray(images)) {
+        imageList = images;
+    } else if (typeof images === 'object') {
+        if (typeof images.values === 'function' && images !== window) {
+            imageList = Array.from(images.values());
+        } else if (images.length !== undefined) {
+            imageList = Array.from(images);
+        } else {
+            imageList = Object.values(images);
+        }
+    }
+
+    if (!imageList.length) {
+        return;
+    }
+
+    const loadPromises = imageList
+        .filter((img) => img instanceof HTMLImageElement)
+        .map((img) => {
+            if (img.complete) {
+                if (img.naturalWidth > 0) {
+                    if (typeof img.decode === 'function') {
+                        return img.decode().catch(() => {});
+                    }
+                    return Promise.resolve();
+                }
+
+                console.warn(`이미지 로드 실패: ${img.src}`);
+                return Promise.resolve();
+            }
+
+            return new Promise((resolve) => {
+                function cleanup() {
+                    img.removeEventListener('load', onLoad);
+                    img.removeEventListener('error', onError);
+                }
+
+                function finish() {
+                    cleanup();
+                    resolve();
+                }
+
+                function onLoad() {
+                    if (typeof img.decode === 'function') {
+                        img.decode().catch(() => {}).finally(finish);
+                    } else {
+                        finish();
+                    }
+                }
+
+                function onError() {
+                    console.warn(`이미지 로드 실패: ${img.src}`);
+                    finish();
+                }
+
+                img.addEventListener('load', onLoad, { once: true });
+                img.addEventListener('error', onError, { once: true });
+            });
+        });
+
+    await Promise.all(loadPromises);
+}
+
+function createLoadingOverlay(containerEl) {
+    const overlay = document.createElement('div');
+    overlay.className = 'image-loading-overlay';
+    overlay.textContent = '로딩 중...';
+
+    const isBody = containerEl === document.body || containerEl === document.documentElement;
+
+    if (!isBody) {
+        const computedPosition = window.getComputedStyle(containerEl).position;
+        if (computedPosition === 'static' && (!containerEl.style.position || containerEl.style.position === '')) {
+            containerEl.style.position = 'relative';
+        }
+    }
+
+    overlay.style.position = isBody ? 'fixed' : 'absolute';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.background = 'rgba(0, 0, 0, 0.6)';
+    overlay.style.color = '#ffffff';
+    overlay.style.fontSize = '60px';
+    overlay.style.fontWeight = 'bold';
+    overlay.style.zIndex = '9999';
+    overlay.style.pointerEvents = 'auto';
+    overlay.style.cursor = 'wait';
+    overlay.style.fontFamily = 'SUIT-ExtraBold';
+
+    containerEl.appendChild(overlay);
+
+    return overlay;
+}
+
+/**
  * 컨테이너에 이미지 컴포넌트들을 추가하고 딕셔너리 형태로 반환
  * @param {string|HTMLElement} container - 컨테이너 선택자 또는 엘리먼트
  * @param {string} jsonPath - JSON 파일 경로 (선택사항)
  * @returns {Promise<Object>} id를 키로 하고 컴포넌트 엘리먼트를 값으로 하는 딕셔너리
  */
 async function renderImageComponents(container, jsonPath = 'data/comps.json') {
+    let loadingOverlay = null;
+    let containerEl = null;
     try {
         // JSON 파일 경로를 전역 변수에 저장 (오버레이 툴에서 사용)
         window.lastUsedJsonPath = jsonPath;
         
-        const elements = await loadImageComponents(jsonPath);
-        const containerEl = typeof container === 'string' 
+        containerEl = typeof container === 'string' 
             ? document.querySelector(container) 
             : container;
             
@@ -88,6 +204,10 @@ async function renderImageComponents(container, jsonPath = 'data/comps.json') {
             throw new Error('컨테이너를 찾을 수 없습니다.');
         }
         
+        loadingOverlay = createLoadingOverlay(containerEl);
+
+        const elements = await loadImageComponents(jsonPath);
+
         // 기존 이미지 컴포넌트 제거 (같은 클래스명을 가진 것들)
         const existingImages = containerEl.querySelectorAll('.image-component');
         existingImages.forEach(img => img.remove());
@@ -103,6 +223,8 @@ async function renderImageComponents(container, jsonPath = 'data/comps.json') {
             // 딕셔너리에 id를 키로 하여 저장
             componentsDict[element.id] = element;
         });
+
+        await waitForImagesLoaded(elements);
         
         // 오버레이 툴 리스너 새로고침 (개발자 모드가 활성화된 경우)
         if (window.overlayTool && window.overlayTool.isActive) {
@@ -117,6 +239,10 @@ async function renderImageComponents(container, jsonPath = 'data/comps.json') {
     } catch (error) {
         console.error('이미지 컴포넌트 렌더링 중 오류 발생:', error);
         return {};
+    } finally {
+        if (loadingOverlay && loadingOverlay.parentNode) {
+            loadingOverlay.remove();
+        }
     }
 }
 
@@ -124,3 +250,4 @@ async function renderImageComponents(container, jsonPath = 'data/comps.json') {
 window.loadImageComponents = loadImageComponents;
 window.createImageElement = createImageElement;
 window.renderImageComponents = renderImageComponents;
+window.waitForImagesLoaded = waitForImagesLoaded;
